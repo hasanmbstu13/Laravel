@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Work with basics of routing
 Route::get('about',function(){
 	return 'About content goes here.';
 });
