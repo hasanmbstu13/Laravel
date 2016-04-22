@@ -3,7 +3,10 @@
     <head>
         <title>Laravel</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+        <!-- <link href="resources/assets/css/main.css" rel="stylesheet" type="text/css"> -->
+        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css"> 
+        <!-- <link rel="stylesheet" href="{{ asset('css/main.css') }}" type="text/css" > -->
+        <!-- <link rel="stylesheet" href="<?php echo asset('assets/css/main.css'); ?>" type="text/css" /> -->
 
         <style>
             html, body {
@@ -38,8 +41,11 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class="title">Laravel 5</div>
+                <div class="title"><h2 class="highlight">Laravel 5</h2></div>
             </div>
+        </div>
+        <div>
+            <h2 class="highlight">Custom Text</h2>
         </div>
     </body>
 </html>
