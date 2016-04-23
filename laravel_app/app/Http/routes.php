@@ -28,10 +28,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Work with basics of routing
-Route::get('about',function(){
-	return 'About content goes here.';
+Route::get('about', function() {
+    // return view('about'); // that translates resources/views/about.blade.php
+    // return view('pages.about'); // that translates resources/views/pages/about.blade.php
+    return view('pages/about'); // that translates resources/views/pages/about.blade.php
 });
+
+// Work with basics of routing
+// Route::get('about',function(){
+// 	return 'About content goes here.';
+// });
 
 Route::get('about/directions',function(){
 	return 'Directions go here.';
