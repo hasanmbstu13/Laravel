@@ -1,0 +1,5 @@
+DB::table('cards')->insert(['title' => 'My New Card', 'created_at' => new DateTime, 'updated_at' => new DateTime]);
+DB::table('cards')->get();
+
+DB::table('cards')->where('title', 'My New Card')->first();
+DB::table('cards')->where('title', 'My New Card')->delete();

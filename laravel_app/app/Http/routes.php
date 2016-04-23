@@ -11,7 +11,7 @@
 |
 */
 
-
+Route::get('cards', 'CardsController@index');
 
 // Route::get('/', function() {
 // 	$people = ['Taylor', 'Matt', 'Jeffry'];
