@@ -11,20 +11,26 @@
 |
 */
 
-Route::get('/', function() {
-	$people = ['Taylor', 'Matt', 'Jeffry'];
 
-	// return View::make(); // This & following are functionally equivalent
-	// pass data to the view
-    // return view('welcome',['people'=> $people]);
-    // Or
-    // Compact function will create an array with key people & value $people
-    return view('welcome',compact('people'));
-    // Or
-    // return view('welcome')->with('people',$people);
-    // Or
-    // return view('welcome')->withPeople($people);
-});
+
+// Route::get('/', function() {
+// 	$people = ['Taylor', 'Matt', 'Jeffry'];
+
+// 	// return View::make(); // This & following are functionally equivalent
+// 	// pass data to the view
+//     // return view('welcome',['people'=> $people]);
+//     // Or
+//     // Compact function will create an array with key people & value $people
+//     return view('welcome',compact('people'));
+//     // Or
+//     // return view('welcome')->with('people',$people);
+//     // Or
+//     // return view('welcome')->withPeople($people);
+// });
+
+// Call Controller from Route
+Route::get('/','PagesController@home');
+Route::get('about','PagesController@about');
 
 /*Route::get('/', function () {
 	Schema::create('art', function ($newtable) {
@@ -43,11 +49,11 @@ Route::get('/', function() {
     return view('welcome');
 });*/
 
-Route::get('about', function() {
-    // return view('about'); // that translates resources/views/about.blade.php
-    // return view('pages.about'); // that translates resources/views/pages/about.blade.php
-    return view('pages/about'); // that translates resources/views/pages/about.blade.php
-});
+// Route::get('about', function() {
+//     // return view('about'); // that translates resources/views/about.blade.php
+//     // return view('pages.about'); // that translates resources/views/pages/about.blade.php
+//     return view('pages/about'); // that translates resources/views/pages/about.blade.php
+// });
 
 // Work with basics of routing
 // Route::get('about',function(){
