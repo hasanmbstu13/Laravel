@@ -12,6 +12,8 @@
 */
 
 Route::get('cards', 'CardsController@index');
+// Here card is the identifier it can be anything like id or others etc.
+Route::get('cards/{card}', 'CardsController@show');
 
 // Route::get('/', function() {
 // 	$people = ['Taylor', 'Matt', 'Jeffry'];
