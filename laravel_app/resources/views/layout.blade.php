@@ -3,12 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-	<!-- <link rel="stylesheet" type="text/css" href="./css/style.css"> -->
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 <body>
 	
 	<!-- here content is an identifer that we want to create in our section -->
-	@yield('content')
+	<div class="container">
+		@yield('content')
+	</div>
 
 	@yield('footer')
 

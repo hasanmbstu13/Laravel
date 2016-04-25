@@ -10,4 +10,11 @@ class Card extends Model
     	// return $this->hasMany(Note::class);
     	return $this->hasMany('App\Models\Note');
     }
+
+    // Her Note $note means we expect Note instance
+    public function addNote(Note $note) {
+    	
+    	return $this->notes()->save($note);
+    	
+    }
 }
