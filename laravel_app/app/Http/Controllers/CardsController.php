@@ -28,4 +28,8 @@ class CardsController extends Controller
     	// return $card;
     	return view('cards.show',compact('card'));
     }
+
+    public function path() {
+        return '/cards/' . $this->id;
+    }
 }
