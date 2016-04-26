@@ -18,6 +18,10 @@ Route::get('cards/{card}', 'CardsController@show');
 // Route::post('cards/{card}/notes', 'CardsController@storeNote');
 // Route::post('cards/{card}/notes', 'CardsController@addNote');
 Route::post('cards/{card}/notes', 'NotesController@store');
+// This actually says when we visit on the note with on id of whatever might be
+// followed by edit that should loade the edit method of notes controller
+Route::get('/notes/{note}/edit','NotesController@edit');
+Route::patch('notes/{note}','NotesController@update');
 // if Mutually exclusive
 // Route::post('cards/{card}/notes', 'CardNotesController@store');
 // Route::get('/', function() {

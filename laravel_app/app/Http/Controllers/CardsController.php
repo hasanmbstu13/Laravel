@@ -23,9 +23,25 @@ class CardsController extends Controller
     // one caveat is that wildcard must be match with the variable name
     // in our case wildcard is {card} & variable name is also $card
     public function show(Card $card) {
-    	// return $card;
+        // ignore $card object lets start from scratch
+        // $card = Card::all();
+        // This keyword coming from Card notes() method
+        $card = Card::with('notes')->get();
+        // var_export($card);
+        // dd($card);
+        // echo '<pre>';
+        //     var_dump($card);
+        // echo '</pre>';
+        return $card;
+        // This will return $card object
+        // return $card;
+        // return $card->notes;
+        // 
+        return $card->notes[0]->users;
+    	// return $card->notes->users;
     	// $card = Card::find($id);
     	// return $card;
+        // Here we return card object 
     	return view('cards.show',compact('card'));
     }
 

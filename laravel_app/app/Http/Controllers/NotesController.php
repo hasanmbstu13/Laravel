@@ -66,4 +66,24 @@ class NotesController extends Controller
 
     	return back();
     }
+
+    public function edit(Note $note) {
+    	
+    	return view('notes.edit', compact('note'));
+    }
+
+    public function update(Request $request, Note $note) {
+    	// die & dump
+    	// dd('hit');
+
+    	// $request->all() fetch all of the form data from the note
+    	$note->update($request->all());
+    	// We using this by array
+    	// $note->update([]);
+
+    	// We can redirect anywhere but for the time we redirect in the same page
+    	return back();
+
+    }
+
 }
