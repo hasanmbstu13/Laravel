@@ -11,9 +11,11 @@ class Card extends Model
     	return $this->hasMany('App\Models\Note');
     }
 
-    // Her Note $note means we expect Note instance
-    public function addNote(Note $note) {
+    // Here Note $note means we expect Note instance
+    public function addNote(Note $note, $userId) {
     	
+        $note->user_id = $userId;
+        
     	return $this->notes()->save($note);
     	
     }
