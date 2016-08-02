@@ -10,7 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::group(['middleware' => ['web']], function(){
+// Route::group(['middleware' => ['web']], function(){
 	Route::get('cards', 'CardsController@index');
 	// Here card is the identifier it can be anything like id or others etc.
 	Route::get('cards/{card}', 'CardsController@show');
@@ -22,14 +22,8 @@ Route::group(['middleware' => ['web']], function(){
 	// followed by edit that should load the edit method of notes controller
 	Route::get('/notes/{note}/edit','NotesController@edit');
 	Route::patch('notes/{note}','NotesController@update');
+// });
 
-	Route::auth();
-	Route::get('/home', 'HomeController@index');
-	Route::get('/dashboard', 'HomeController@index');
-	// Route::get('/dashboard', 'HomeController@index')->middleware('auth');
-	Route::get('/','HomeController@index');
-	// Route::get('/','PagesController@home');
-});
 // if Mutually exclusive
 // Route::post('cards/{card}/notes', 'CardNotesController@store');
 // Route::get('/', function() {
@@ -92,8 +86,7 @@ Route::group(['middleware' => ['web']], function(){
 // });
 
 // Route::group(['middleware' => 'web'], function(){
-// 	Route::auth();
-
-// 	Route::get('/home', 'HomeController@index');
+	Route::auth();
+	Route::get('/home', 'HomeController@index');
 // });
 
