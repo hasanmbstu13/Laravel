@@ -12,7 +12,8 @@ class Card extends Model
     }
 
     // Here Note $note means we expect Note instance
-    public function addNote(Note $note, $userId) {
+
+    public function addNote(Note $note) {
     	
         $note->user_id = $userId;
         
