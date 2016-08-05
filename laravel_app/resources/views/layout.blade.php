@@ -4,6 +4,27 @@
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<style type="text/css">
+		body{ margin:0; padding: 0; }
+		.Alert{
+			
+			padding: 10px;
+		}
+
+		.Alert--Info {
+			background: red; 
+		}
+
+		.Alert--Success {
+			background: #8AC48A;
+			/*color: white;*/
+		}
+
+		.Alert--Error {
+			background: red;
+			color: white;
+		}
+	</style>
 </head>
 <body>
 	

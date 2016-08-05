@@ -13,14 +13,15 @@ class CreateArt extends Migration
     public function up()
     {
         Schema::create('art2', function ($newtable) {
-                $newtable->increments('id');
-                $newtable->string('artist');
-                $newtable->string('title',500);
-                $newtable->text('description');
-                $newtable->date('created');
-                $newtable->date('exhibition_date');
-                $newtable->timestamps();
-            });    }
+                        $newtable->increments('id');
+                        $newtable->string('artist');
+                        $newtable->string('title',500);
+                        $newtable->text('description');
+                        $newtable->date('created');
+                        $newtable->date('exhibition_date');
+                        $newtable->timestamps();
+                    });   
+    }
 
     /**
      * Reverse the migrations.

@@ -37,19 +37,25 @@ class CardsController extends Controller
         // ignore $card object lets start from scratch
         // $card = Card::all();
         // This keyword coming from Card notes() method
-        $card = Card::with('notes')->get();
+        // Eager loaded with all of the associated notes with the card
+        // $card = Card::with('notes')->get();
+        // To load a single card object
+        // $card = Card::with('notes')->find(1);
+        // we have $card instance so we can call eager load
+        $card->load('notes.user');
         // var_export($card);
         // dd($card);
         // echo '<pre>';
         //     var_dump($card);
         // echo '</pre>';
-        return $card;
+        // return $card;
         // This will return $card object
         // return $card;
         // return $card->notes;
         // 
-        return $card->notes[0]->users;
-    	// return $card->notes->users;
+        // return $card->notes->users;
+        // This will call at every single that's why we get n+1 query
+    	// return $card->notes[0]->user; // n+1
     	// $card = Card::find($id);
     	// return $card;
         // Here we return card object 

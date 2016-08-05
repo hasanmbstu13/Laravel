@@ -16,6 +16,7 @@ class NotesController extends Controller
 {
 	// Card $card will return instance we don't need to query or fetching data its just worked fine
     public function store(Request $request, Card $card) {
+    
     // public function store() {
     	// return $card;
 
@@ -50,9 +51,29 @@ class NotesController extends Controller
 
     	// Truly final options
     	// All options are also worked fine
-    	$card->addNote(
-    		new Note($request->all())
-    	);
+        // $request->all() fetch all our request data
+    	
+        // Here we pass through all the requests by $request & array is used for set of rules
+        $this->validate($request,[
+
+            'body' => 'required'
+        ]);
+
+        $note = new Note($request->all());
+        // $note->user_id = Auth::id();
+        // $note->by(Auth::user());
+       
+       // $note->user_id = 1;
+
+        // we can also use the trick like so
+        $card->addNote($note,1);
+        // $card->addNote($note,$user);
+
+     //    $card->addNote(
+     //        // include user_id
+     //        // new Note($request->all())['user_id']
+    	// 	new Note($request->all())
+    	// );
 
     	// return $request->all();
     	// return \Request::all();
