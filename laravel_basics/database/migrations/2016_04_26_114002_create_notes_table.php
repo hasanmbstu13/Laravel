@@ -14,6 +14,8 @@ class CreateNotesTable extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
                     $table->increments('id');
+                    // Here unsigned means user_id should be positive not negative
+                    // User id can't be negative like -5
                     $table->integer('user_id')->unsigned()->index();
                     $table->integer('card_id')->unsigned()->index();
                     $table->text('body');
