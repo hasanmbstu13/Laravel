@@ -12,6 +12,12 @@ class CreateCardsTable extends Migration
      */
     public function up()
     {
+        // Here table is used for modify existing table
+        // Schema::table('cards', function (Blueprint $table){
+        //     $table->increments('id');
+        //     $table->timestamps();
+        // });
+
         Schema::create('cards', function (Blueprint $table) {
             $table->increments('id');
             $table->text('title');

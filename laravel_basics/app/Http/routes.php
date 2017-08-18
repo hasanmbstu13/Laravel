@@ -16,6 +16,7 @@
 // For submitting form data we generally use following route
 // Route::post('cards', 'CardsController@store');
 // Show specific card 
+// {card} is the identifier or passing the wildcard like here it is card id
 // Route::get('cards/{card}', 'CardsController@show'); 
 // or Route::get('cards/1', 'CardsController@show');
 // Edit specific card
