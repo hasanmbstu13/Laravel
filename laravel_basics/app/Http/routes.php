@@ -11,6 +11,22 @@
 |
 */
 
+// To show or get data from database we use following route
+// Route::get('cards', 'CardsController@index');
+// For submitting form data we generally use following route
+// Route::post('cards', 'CardsController@store');
+// Show specific card 
+// Route::get('cards/{card}', 'CardsController@show'); 
+// or Route::get('cards/1', 'CardsController@show');
+// Edit specific card
+// Route::post('cards/1/edit', 'CardsController@edit');
+// Update a card use either put or patch request
+// Route::put('cards/1', 'CardsController@update');
+// or Route::patch('cards/1', 'CardsController@update');
+// For deleting card use following route
+// Route::delete('cards/1', 'CardsController@destroy');
+
+
 // Instead placing all routes placed sepcific one
 // Route::group(['middleware' => ['web']], function(){
 	Route::get('/', function(){
@@ -65,203 +81,21 @@ Route::group(['middleware' => ['web']], function(){
 	Route::post('change_pm_delete_user/{user_id}',['as' => 'change_pm_delete_user', 'uses' => 'ProjectController@change_pm_delete_user']);
 	// Route::get('/','PagesController@home');
 });
-// if Mutually exclusive
-// Route::post('cards/{card}/notes', 'CardNotesController@store');
-// Route::get('/', function() {
-// 	$people = ['Taylor', 'Matt', 'Jeffry'];
-
-// 	// return View::make(); // This & following are functionally equivalent
-// 	// pass data to the view
-//     // return view('welcome',['people'=> $people]);
-//     // Or
-//     // Compact function will create an array with key people & value $people
-//     return view('welcome',compact('people'));
-//     // Or
-//     // return view('welcome')->with('people',$people);
-//     // Or
-//     // return view('welcome')->withPeople($people);
-// });
-
-// Call Controller from Route
-// Route::get('/','PagesController@home');
-// Route::get('about','PagesController@about');
-
-/*Route::get('/', function () {
-	Schema::create('art', function ($newtable) {
-	    $newtable->increments('id');
-	    $newtable->string('artist');
-	    $newtable->string('title',500);
-	    $newtable->text('description');
-	    $newtable->date('created');
-	    $newtable->date('exhibition_date');
-	    $newtable->timestamps();
-
-	});
 
 
-	Route::get('cards', 'CardsController@index');
-	// Here card is the identifier it can be anything like id or others etc.
-	Route::get('cards/{card}', 'CardsController@show');
+Route::get('about/directions',function(){
+	return 'Directions go here.';
+});
 
-	// Route::post('cards/{card}/notes', 'CardsController@storeNote');
-	// Route::post('cards/{card}/notes', 'CardsController@addNote');
-	Route::post('cards/{card}/notes', 'NotesController@store');
-	// This actually says when we visit on the note with on id of whatever might be
-	// followed by edit that should loade the edit method of notes controller
-	Route::get('/notes/{note}/edit','NotesController@edit');
-	Route::patch('notes/{note}','NotesController@update');
-	// if Mutually exclusive
-	// Route::post('cards/{card}/notes', 'CardNotesController@store');
-	// Route::get('/', function() {
-	// 	$people = ['Taylor', 'Matt', 'Jeffry'];
+Route::get('about/{theSubject}',function($theSubject){
+	return $theSubject.' content goes here.';
+});
 
-	// 	// return View::make(); // This & following are functionally equivalent
-	// 	// pass data to the view
-	//     // return view('welcome',['people'=> $people]);
-	//     // Or
-	//     // Compact function will create an array with key people & value $people
-	//     return view('welcome',compact('people'));
-	//     // Or
-	//     // return view('welcome')->with('people',$people);
-	//     // Or
-	//     // return view('welcome')->withPeople($people);
-	// });
-
-	// Call Controller from Route
-	// Route::get('/','PagesController@home');
-	Route::get('about','PagesController@about');
-
-	/*Route::get('/', function () {
-		Schema::create('art', function ($newtable) {
-		    $newtable->increments('id');
-		    $newtable->string('artist');
-		    $newtable->string('title',500);
-		    $newtable->text('description');
-		    $newtable->date('created');
-		    $newtable->date('exhibition_date');
-		    $newtable->timestamps();
-		});
-		Schema::table('art', function($newtable) {
-		    $newtable->boolean('alumni');
-		    $newtable->dropColumn('exhibition_date');
-		});
-	    return view('welcome');
-	});*/
-
-	// Route::get('about', function() {
-	//     // return view('about'); // that translates resources/views/about.blade.php
-	//     // return view('pages.about'); // that translates resources/views/pages/about.blade.php
-	//     return view('pages/about'); // that translates resources/views/pages/about.blade.php
-	// });
-
-	// Work with basics of routing
-	// Route::get('about',function(){
-	// 	return 'About content goes here.';
-	// });
-
-	Route::get('about/directions',function(){
-		return 'Directions go here.';
-	});
-
-	Route::get('about/{theSubject}',function($theSubject){
-		return $theSubject.' content goes here.';
-	});
-
-	Route::get('about/classes/{theSubject}',function($theSubject){
-		return "Content {$theSubject} classes goes here.";
-	});
+Route::get('about/classes/{theSubject}',function($theSubject){
+	return "Content {$theSubject} classes goes here.";
+});
 
 
-// });
 
 
-// Route::get('cards', 'CardsController@index');
-// // Here card is the identifier it can be anything like id or others etc.
-// Route::get('cards/{card}', 'CardsController@show');
-
-// // Route::post('cards/{card}/notes', 'CardsController@storeNote');
-// // Route::post('cards/{card}/notes', 'CardsController@addNote');
-// Route::post('cards/{card}/notes', 'NotesController@store');
-// // This actually says when we visit on the note with on id of whatever might be
-// // followed by edit that should loade the edit method of notes controller
-// Route::get('/notes/{note}/edit','NotesController@edit');
-// Route::patch('notes/{note}','NotesController@update');
-// // if Mutually exclusive
-// // Route::post('cards/{card}/notes', 'CardNotesController@store');
-// // Route::get('/', function() {
-// // 	$people = ['Taylor', 'Matt', 'Jeffry'];
-
-// // 	// return View::make(); // This & following are functionally equivalent
-// // 	// pass data to the view
-// //     // return view('welcome',['people'=> $people]);
-// //     // Or
-// //     // Compact function will create an array with key people & value $people
-// //     return view('welcome',compact('people'));
-// //     // Or
-// //     // return view('welcome')->with('people',$people);
-// //     // Or
-// //     // return view('welcome')->withPeople($people);
-// // });
-
-// // Call Controller from Route
-// Route::get('/','PagesController@home');
-// Route::get('about','PagesController@about');
-
-// /*Route::get('/', function () {
-// 	Schema::create('art', function ($newtable) {
-// 	    $newtable->increments('id');
-// 	    $newtable->string('artist');
-// 	    $newtable->string('title',500);
-// 	    $newtable->text('description');
-// 	    $newtable->date('created');
-// 	    $newtable->date('exhibition_date');
-// 	    $newtable->timestamps();
-// 	});
-// 	Schema::table('art', function($newtable) {
-// 	    $newtable->boolean('alumni');
-// 	    $newtable->dropColumn('exhibition_date');
-// 	});
-//     return view('welcome');
-// });*/
-
-// // Route::get('about', function() {
-// //     // return view('about'); // that translates resources/views/about.blade.php
-// //     // return view('pages.about'); // that translates resources/views/pages/about.blade.php
-// //     return view('pages/about'); // that translates resources/views/pages/about.blade.php
-// // });
-
-// // Work with basics of routing
-// // Route::get('about',function(){
-// // 	return 'About content goes here.';
-// // });
-
-// Route::get('about/directions',function(){
-// 	return 'Directions go here.';
-// });
-
-// Route::get('about/{theSubject}',function($theSubject){
-// 	return $theSubject.' content goes here.';
-// });
-
-// Route::get('about/classes/{theSubject}',function($theSubject){
-// 	return "Content {$theSubject} classes goes here.";
-// });
-
-// Route::get('about/directions',function(){
-// 	return 'Directions go here.';
-// });
-
-// Route::get('about/{theSubject}',function($theSubject){
-// 	return $theSubject.' content goes here.';
-// });
-
-// Route::get('about/classes/{theSubject}',function($theSubject){
-// 	return "Content {$theSubject} classes goes here.";
-// });
-
-// Route::group(['middleware' => 'web'], function(){
-// 	Route::auth();
-
-// 	Route::get('/home', 'HomeController@index');
-// });
 
