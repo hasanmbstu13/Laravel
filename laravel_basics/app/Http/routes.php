@@ -72,6 +72,7 @@ Route::group(['middleware' => ['web']], function(){
 	// This actually says when we visit on the note with on id of whatever might be
 	// followed by edit that should load the edit method of notes controller
 	Route::get('/notes/{note}/edit','NotesController@edit');
+	// patch almost synonym of update
 	Route::patch('notes/{note}','NotesController@update');
 
 	Route::auth();

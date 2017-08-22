@@ -96,8 +96,9 @@ class NotesController extends Controller
     public function update(Request $request, Note $note) {
     	// die & dump
     	// dd('hit');
-
-    	// $request->all() fetch all of the form data from the note
+        // fetch all of the form data from the note
+        // form data means submitted data
+    	// $request->all() 
     	$note->update($request->all());
     	// We using this by array
     	// $note->update([]);

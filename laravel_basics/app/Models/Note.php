@@ -20,6 +20,7 @@ class Note extends Model
 		$this->user->id = $user->id;
 	}
 
+	// return associate card with the note
 	public function card() {
 	    // return $this->belongsTo(Card::calss);
 	    return $this->belongsTo('App\Models\Card');

@@ -17,12 +17,19 @@ class Card extends Model
     }
 
     // Here Note $note means we expect Note instance
-
+    // This method will create new note in database
     public function addNote(Note $note) {
     	
         $note->user_id = Auth::id();
         
     	return $this->notes()->save($note);
     	
+    }
+
+    // This is useful if path is so completed
+    public function path() {
+        // return $this;
+        // return $this->id;
+        return '/cards/' . $this->id;
     }
 }

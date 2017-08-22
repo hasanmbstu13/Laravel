@@ -68,7 +68,12 @@ class CardsController extends Controller
         // $card = Card::with('notes')->get();
         // To load a single card object
         // $card = Card::with('notes')->find(1);
+        // This is mean that with the relationship or eager load return all notes associated with the Card
+        // Then return all user associated with the notes
+        // $card = Card::with('notes.user')->find(1);
         // we have $card instance so we can call eager load
+        // notes is the notes method in the Card model
+        // and user is the user method in the Note model
         $card->load('notes.user');
         // var_export($card);
         // dd($card);
