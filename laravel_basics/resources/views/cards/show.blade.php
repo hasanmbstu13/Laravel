@@ -21,7 +21,7 @@
 
 			<form method="POST" action="/cards/{{ $card->id }}/notes">
 				<!-- when create a field make sure it has csrf_field -->
-				 <!-- {{ csrf_field() }} -->
+				 {{-- {{ csrf_field() }} --}}
 				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 				<!-- <input type="hidden" name="user_id" value="id_of_the_authenticated_user"></input> -->
@@ -37,18 +37,26 @@
 					<button type="submit" class="btn btn-primary">Add Note</button>
 				</div>
 			</form>
-			
+			@if ($errors->any())
+				{{ var_dump($errors->all()) }}
+			@endif
+			{{-- @if(count($errors))
+				{{ var_dump($errors) }}
+			@endif
 
+			@if(!empty($validator))
+			{{ $errors->all() }}
+				{{ var_dump($validator->errors()) }}
+			@endif --}}
+			{{-- {{ count($errors) }}
+			@if(count($errors))
+				<ul>
+					@foreach ($errors->all as $error)
+						<li>{{ $error }}</li>
+					@endforeach
+				</ul>
+			@endif --}}
 		</div>
-		{{ var_dump($errors) }}
-		{{ count($errors) }}
-		@if (count($errors))
-			<ul>
-				@foreach ($errors->all as $error)
-					<li>{{ $error }}</li>
-				@endforeach
-			</ul>
-		@endif
 	</div>
 @stop
 

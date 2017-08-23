@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
+
 use App\Models\Card;
 
 use App\Models\Note;
@@ -12,10 +14,13 @@ use App\Http\Requests;
 
 use App\Http\Controllers\Controller;
 
+
 class NotesController extends Controller
 {
 	// Card $card will return instance we don't need to query or fetching data its just worked fine
     public function store(Request $request, Card $card) {
+
+        // return $request;
     
     // public function store() {
     	// return $card;
@@ -47,17 +52,47 @@ class NotesController extends Controller
     	// another options 
     	// This is dangerous because we should confirm what items should be submitted
     	// but in our case we protect by using fillable
-    	// $card->notes()->create($request->all()); // [] return an array wiht request data like body : 'add note'.
+    	// $card->notes()->create($request->all()); // [] return an array with request data like body : 'add note'.
 
     	// Truly final options
     	// All options are also worked fine
         // $request->all() fetch all our request data
     	
         // Here we pass through all the requests by $request & array is used for set of rules
+        // $request is the submitted data of form
+        // Laravel validate data with rule here like 'body' => 'required'
+        // Anytime if validation thrown any exception laravel takes care the error for us
+
+        // $validator = Validator::make($request->all(), [
+        //         'body' => 'required'
+        //     ]);
+        // dd('hit');
         $this->validate($request,[
 
             'body' => 'required'
         ]);
+
+        // return $validator;
+
+        // return $errors->all();
+
+        // return $validator->errors();
+
+        // $validator = $this->validate($request,[
+
+        //     'body' => 'required'
+        // ]);
+        // var_dump($validator); exit;
+        // return $errors;
+
+        // if ($validator->fails()) {
+        //     $errors = $validator->errors();
+        //     // return $validator->errors();
+        //     // return back()
+        //                 // ->withErrors($validator)
+        //                 // ->withInput();
+        //     return view('cards.show', compact('card', 'errors'));
+        // }
 
         $note = new Note($request->all());
         // $note->user_id = Auth::id();
@@ -67,6 +102,7 @@ class NotesController extends Controller
 
         // we can also use the trick like so
         $card->addNote($note,1);
+
         // $card->addNote($note,$user);
 
      //    $card->addNote(

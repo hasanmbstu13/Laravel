@@ -19,7 +19,8 @@ class CardsController extends Controller
     public function __construct()
     {
         // $this->middleware('auth');
-        $this->middleware('auth', ['except' => ['index']]); //@MH thats apply every single route of this controller
+        //@MH thats apply every single route of this controller
+        $this->middleware('auth', ['except' => ['index']]); 
     }
 
     public function index() {
