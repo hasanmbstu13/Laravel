@@ -21,6 +21,7 @@ class CardsController extends Controller
         // $this->middleware('auth');
         //@MH thats apply every single route of this controller
         $this->middleware('auth', ['except' => ['index']]); 
+        // $this->middleware('admin');
     }
 
     public function index() {
