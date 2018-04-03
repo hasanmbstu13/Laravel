@@ -1,0 +1,1 @@
+# Make Sure that every migration has a column named 'tenant_id' of type integer #

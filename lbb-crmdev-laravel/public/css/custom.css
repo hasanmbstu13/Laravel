@@ -1,0 +1,280 @@
+body .lead-page{
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+ .lead-page .card-box {
+  margin-bottom: 10px;
+  padding: 10px;
+}
+.lead-page .panel-heading {
+  border: medium none !important;
+  border-radius: 4px 4px 0 0;
+  margin: -2px;
+  padding: 10px;
+}
+.lead-page .panel .panel-body {
+  padding: 10px;
+}
+.m-t-20{
+  margin-top: 20px;
+}
+.panel-title > span {
+  margin-left: 22px;
+}
+.btn-custom {
+  margin-left: 15px;
+}
+.form-col .control-label {
+  font-weight: normal;
+  margin-bottom: 0;
+  padding-top: 0;
+  text-align: left;
+  vertical-align: middle;
+  line-height: 38px;
+}
+.text-red {
+  color: #cc0000;
+}
+.form-col > .row{
+  border-top: 1px solid #ddd;	
+}
+.form-col > .row:last-child{
+  border-bottom: 1px solid #ddd;	
+}
+.form-col .form-group {
+  margin: 0;
+  padding: 8px 0;
+}
+.form-col-2 .form-group:first-child {
+  border-right: 1px solid #ddd;
+}
+.form-col-2 .row {
+  background: #f9f9f9;
+}
+.form-col-2 .row:nth-child(2n) {
+  background: #f3f3f3;
+}
+.panel.panel-lead {
+  border: 1px solid #ddd;
+}
+.panel-lead .panel-heading {
+  border: 1px solid #ddd;
+  margin: 0;
+  border-radius: 0;
+}
+.form-col-1 > .row{
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd; 
+}
+.form-col-1 .form-group {
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+.form-col-1 .form-group:last-child{
+  border-bottom: none;	
+}
+.form-col-1 .form-group:nth-child(2n) {
+  background: #f9f9f9;
+}
+.text-note {
+  color: #333;
+  font-size: 13px;
+  font-style: italic;
+  margin-top: 5px;
+}
+.panel .panel-body .text-note p {
+  line-height: 16px;
+}
+.form-col-3 .form-group {
+  border-right: 1px solid #ddd;
+}
+.form-col-3 .form-group:last-child {
+  border-right: none;
+}
+.form-col-3 .row{
+ 	background: #f9f9f9;
+}
+.bgf3{
+ background: #F3F3F3;
+}
+.bgf9{
+ background: #f9f9f9;
+}
+.text-blue {
+  color: #336666;
+  margin-top: 5px;
+  display: inline-block;
+}
+.strong{
+  font-weight: bold;
+}
+.form-col-6 .form-group {
+  border-top: 1px solid #ddd;
+}
+.form-col-6 .form-group:last-child {
+  border-bottom: 1px solid #ddd;
+}
+#assessment .panel-body{
+  padding-bottom: 0;
+  padding-top: 0;
+}
+.my-form-custom .select2{
+  position: relative;
+}
+.lead-selection-form .form-group > * {
+  padding: 10px 0;
+}
+.lead-selection-form select.form-control {
+  width: 100%;
+}
+.lead-selection-form b {
+  left: inherit;
+  right: 10px;
+}
+.p-l-8{
+  padding-left: 8px !important; 
+}
+.border-left{
+  border-left: 1px solid #ddd;
+}
+.my-form-custom .form-horizontal .last-col .form-group {
+  border-bottom: 1px solid #ddd; 
+}
+.p-t-10{
+  padding-top: 10px;
+}
+.tabs-colored li {
+  margin-left: 10px;
+}
+.tabs-colored li:first-child{
+  margin-left: 0;
+}
+#lead_selection_form {
+  margin: 0;
+}
+.navbar-form .form-control {
+  border-radius: 0;
+}
+.lead-selection-form .col-sm-4 .form-group:last-child {
+  border-bottom: 1px solid #ddd;
+}
+.lead-selection-form .card-box .form-group{
+  border: none;
+}
+.footer {
+  background: #0055a0;
+  border-top: none;
+  color: #fff;
+  text-align: center;
+}
+.table > tbody > tr > td,
+.table > tbody > tr > th {
+  padding: 9px 8px;
+}
+.table.extra-padding > tbody > tr > td,
+.table.extra-padding > tbody > tr > th {
+  padding: 13px 8px !important;
+}
+#business_description .card-box {
+  padding-bottom: 10px;
+}
+.col-width {
+  width: 250px;
+}
+.add_morebtn{
+  display: none;
+}
+.data_entry_form .panel-body {
+  padding: 10px;
+}
+.m-t-5{
+	margin-top: 5px;
+}
+.buyer_profile_tab li > a {
+  font-size: 13px;
+  padding: 10px 7px;
+}
+.modal_full .modal-dialog {
+  width: 95%;
+}
+.buyer_profile_tab li {
+    margin-left: 8px;
+}
+.required {
+  color: red;
+  margin-left: 2px;
+  position: relative;
+  top: -2px;
+}
+table .control-label{
+  line-height: 38px;
+}
+.letters_tab li > a {
+  font-size: 11px;
+  padding: 9px;
+}
+.toggle-ele{
+  display: none;
+}
+.main_content {
+  min-height: 650px;
+}
+.seller_3917 .checkbox label, .buyer_3917 .checkbox label {
+	padding-right: 30px;
+}
+#business_description .panel-body {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.m-r-0{
+	margin-right:0;
+}
+.m-l-0
+{
+	margin-left:0;
+}
+.p-0{
+	padding:0;
+}
+.buyer_3917 .form-control, .seller_3917 .form-control {
+    max-width: 300px;
+}
+#assessment .panel-title.pull-left {
+    padding-left: 10px;
+}
+.p-l-15
+{
+	padding-left:15px;
+}
+.caller_table ,.caller_table  th,.caller_table td {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+	text-align: center;
+}
+
+
+/*for Ajax loader*/
+.loader {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('../images/loading.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   loader element will be visible */
+body.loading .loader {
+    display: block;
+}
