@@ -1,0 +1,92 @@
+.invest #banner .hexagon {
+  position: relative;
+  width: 300px;
+  height: 180.21px;
+  background-color: #fff;
+  margin: 86.60px 0;
+  box-shadow: 0 0 100px rgba(0,0,0,0.1);
+  border-radius: 0;
+  transform: rotate(90deg);
+  left: 0;
+  margin-top: 80px !important;
+  transition: 400ms ease-in-out;
+}
+
+.invest #banner .hexagon.hexa2{
+  left: 40%;
+  right: auto;
+  top: -59%;
+}
+
+.invest #banner .hexagon.hexa3{
+  left: 40%;
+  right: auto;
+  bottom: -59%;
+  top: auto;
+}
+
+.invest #banner .hexagon.hexa2 span.rotate-hexa{
+  width: 230px;
+}
+
+.invest #banner .hexagon.hexa2,.invest #banner .hexagon.hexa3{
+  position: absolute;
+}
+
+.contact #banner .hexagon:hover , .invest #banner .hexagon:hover{
+  transform: rotate(90deg) scale(1.05);
+}
+
+.contact #banner .hexagon:before,
+.contact #banner .hexagon:after,
+.invest #banner .hexagon:before,
+.invest #banner .hexagon:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 212.13px;
+  height: 212.13px;
+  -webkit-transform: scaleY(0.5774) rotate(-45deg);
+  -ms-transform: scaleY(0.5774) rotate(-45deg);
+  transform: scaleY(0.5774) rotate(-45deg);
+  background-color: inherit;
+  left: 43.9340px;
+  box-shadow: 0 0 100px rgba(0,0,0,0.1);
+  border-radius: 0;
+}
+
+.contact #banner .hexagon:before ,.invest #banner .hexagon:before {
+  top: -106.0660px;
+}
+
+.contact #banner .hexagon:after , .invest #banner .hexagon:after {
+  bottom: -106.066px;
+  top: auto;
+}
+
+/*cover up extra shadows*/
+.invest #banner .hexagon span.hexa-shape {
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 300px;
+  height: 180.2051px;
+  z-index: 2;
+  background: inherit;
+  border-radius: 0;
+  padding: 10px 0;
+}
+
+.invest #banner .hexagon span.rotate-hexa {
+    right: 0;
+    margin: 0 auto;
+    padding: 10px 0;
+    height: auto;
+    width: 252px;
+    border-radius: 0;
+    transform: rotate(-90deg);
+    display: block;
+    text-align: center;
+    top: 8%;
+}

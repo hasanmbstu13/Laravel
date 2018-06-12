@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="286px" height="100px" viewBox="0 0 286 100" enable-background="new 0 0 286 100" xml:space="preserve">
+<title>Group 23</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+	<g id="Home" transform="translate(-45.000000, -26.000000)">
+		<g id="Group-23" transform="translate(45.000000, 26.000000)">
+			<g id="hexa-name" transform="translate(104.000000, 25.000000)">
+				<polyline id="Fill-1" fill="#FFFFFF" points="40.041,47.583 29.616,47.583 29.616,27.131 10.425,27.131 10.425,47.583 0,47.583 
+					0,0.172 10.425,0.172 10.425,18.366 29.616,18.366 29.616,0.172 40.041,0.172 40.041,47.583 				"/>
+				<polyline id="Fill-4" fill="#FFFFFF" points="133.189,47.583 120.772,47.583 110.413,31.182 99.855,47.583 88.168,47.583 
+					104.703,22.749 89.43,0.172 101.516,0.172 110.812,15.311 120.44,0.172 131.861,0.172 116.655,22.815 133.189,47.583 				"/>
+				<path id="Fill-6" fill="#FFFFFF" d="M181.49,47.583h-10.709c-2.945-8.449-5.89-16.899-8.835-25.349l-3.564-10.376h-0.052
+					c-0.022-0.062-0.043-0.124-0.065-0.186c-1.555,4.427-3.109,8.853-4.664,13.281l-1.527,4.303h0.016
+					c-0.909,2.589-1.819,5.18-2.728,7.769h-0.011l-3.719,10.558h-10.491L153.07,0.172h10.691L181.49,47.583"/>
+				<polygon id="Fill-9" fill="#FFFFFF" points="48.831,47.599 84.955,47.599 84.955,38.766 48.831,38.766 				"/>
+				<polygon id="Fill-10" fill="#FFFFFF" points="48.831,28.262 84.955,28.262 84.955,19.429 48.831,19.429 				"/>
+				<polygon id="Fill-12" fill="#FFFFFF" points="48.831,8.925 84.955,8.925 84.955,0.092 48.831,0.092 				"/>
+			</g>
+			<g id="HEXA-logo---edited">
+				<g id="logo" transform="translate(0.000000, 0.147990)">
+					<g id="XMLID_2_" transform="translate(0.115426, 0.147990)">
+						<g id="Group">
+							
+								<linearGradient id="Shape_4_" gradientUnits="userSpaceOnUse" x1="-160.3932" y1="441.5685" x2="-159.3932" y2="441.5685" gradientTransform="matrix(73.1246 0 0 -83.5452 11728.7891 36948.25)">
+								<stop  offset="0" style="stop-color:#EFEFEF"/>
+								<stop  offset="1" style="stop-color:#FFFFFF"/>
+							</linearGradient>
+							<polygon id="Shape" fill="url(#Shape_4_)" points="73.228,24.852 73.228,74.363 36.665,99.112 0.103,74.363 0.103,54.166 
+								8.331,45.035 8.331,54.179 8.331,68.791 36.665,87.982 65,68.791 65,30.423 51.29,21.138 59.519,15.566 							"/>
+							
+								<linearGradient id="Shape_5_" gradientUnits="userSpaceOnUse" x1="-158.9874" y1="431.7511" x2="-157.9874" y2="431.7511" gradientTransform="matrix(44.7904 0 0 -24.7618 7135.8413 10718.8652)">
+								<stop  offset="0" style="stop-color:#EFEFEF"/>
+								<stop  offset="1" style="stop-color:#FFFFFF"/>
+							</linearGradient>
+							<polygon id="Shape_1_" fill="url(#Shape_5_)" points="59.519,15.566 51.29,21.138 22.956,40.328 14.728,34.757 
+								43.062,15.566 							"/>
+							
+								<linearGradient id="Shape_6_" gradientUnits="userSpaceOnUse" x1="-158.9117" y1="437.9501" x2="-157.9117" y2="437.9501" gradientTransform="matrix(43.8747 0 0 -44.5583 6986.939 19571.3418)">
+								<stop  offset="0" style="stop-color:#EFEFEF"/>
+								<stop  offset="1" style="stop-color:#FFFFFF"/>
+							</linearGradient>
+							<polygon id="Shape_2_" fill="url(#Shape_6_)" points="58.603,34.757 58.603,64.458 36.665,79.315 14.728,64.458 
+								22.956,58.887 36.665,68.172 50.375,58.887 50.375,40.328 							"/>
+							
+								<linearGradient id="Shape_7_" gradientUnits="userSpaceOnUse" x1="-158.9874" y1="437.09" x2="-157.9874" y2="437.09" gradientTransform="matrix(44.7904 0 0 -40.1089 7121.2163 17551.3555)">
+								<stop  offset="0" style="stop-color:#EFEFEF"/>
+								<stop  offset="1" style="stop-color:#FFFFFF"/>
+							</linearGradient>
+							<polygon id="Shape_3_" fill="url(#Shape_7_)" points="44.894,5.662 8.331,30.423 8.331,40.212 0.103,40.212 0.103,24.852 
+								36.665,0.103 							"/>
+							<rect id="Rectangle-path" x="8.331" y="45.035" fill="#F1F1F1" width="28.334" height="9.144"/>
+						</g>
+					</g>
+				</g>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>

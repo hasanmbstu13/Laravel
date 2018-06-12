@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="269px" viewBox="0 0 1440 269" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 39</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="1440" height="269"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home" transform="translate(0.000000, -1024.000000)">
+            <g id="Group-17" transform="translate(0.000000, 1024.000000)">
+                <g id="Group-39">
+                    <g id="Group-10">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <use id="Mask" fill="#EFEFEF" xlink:href="#path-1"></use>
+                        <g mask="url(#mask-2)" id="Path" fill-opacity="0.300000012" fill="#FFFFFF">
+                            <g transform="translate(1101.000000, -107.000000)">
+                                <polygon points="244.010277 419.89646 184 315.94823 244.010277 212 364.030832 212 424.041109 315.94823 364.030832 419.89646"></polygon>
+                                <polygon points="244.010277 207.89646 184 103.94823 244.010277 0 364.030832 0 424.041109 103.94823 364.030832 207.89646"></polygon>
+                                <polygon points="60.0102772 312.89646 0 208.94823 60.0102772 105 180.030832 105 240.041109 208.94823 180.030832 312.89646"></polygon>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
