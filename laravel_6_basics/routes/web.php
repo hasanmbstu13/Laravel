@@ -11,11 +11,19 @@
 |
 */
 
-Route::get('/', function() {
-	$name = request('name');
-	return $name;
-	// return 'Hello World';
+Route::get('/about', function() {
+	return view('about');
 });
+
+Route::get('/', function() {
+	return view('welcome');
+});
+
+// Route::get('/', function() {
+// 	$name = request('name');
+// 	return $name;
+// 	// return 'Hello World';
+// });
 
 // Root url
 // Route::get('/', function () {
