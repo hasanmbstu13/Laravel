@@ -34,3 +34,9 @@
 
 // Tinker to interact with the database
 	# php artisan tinker
+
+// NPM Commands
+	# -- Installing npm
+	# npm install
+	# npm run dev -- for development
+	# npm run watch -- to look over any new chnages and compile it
