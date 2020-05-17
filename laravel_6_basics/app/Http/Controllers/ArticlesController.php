@@ -17,13 +17,22 @@ class ArticlesController extends Controller
 		return view('articles.index', ['articles' => $articles]);
 	}
     
-    public function show($id)
-    {
-    	// Show a single resource.
+    // public function show($id)
+    // {
+    // 	// Show a single resource.
     
-    	$article = Article::find($id);
-    	return view('articles.show', ['article' => $article]);
+    // 	$article = Article::findOrFail($id);
+    // 	return view('articles.show', ['article' => $article]);
+    // }
+
+    // Another approach
+    // $article should be match with route wildcards
+    public function show(Article $article)
+    {
+        // Show a single resource.
+        return view('articles.show', ['article' => $article]);
     }
+
 
     public function create()
     {
@@ -59,17 +68,25 @@ class ArticlesController extends Controller
 
     }
 
-    public function edit($id)
+    // public function edit($id)
+    // {
+    // 	// Show a view to edit an existing resource
+    //     $article = Article::find($id);
+
+    //     // find the article associated with the id 
+    //     return view('articles.edit', compact('article')); 
+
+    // }
+
+    public function edit(Article $article)
     {
-    	// Show a view to edit an existing resource
-        $article = Article::find($id);
 
         // find the article associated with the id 
         return view('articles.edit', compact('article')); 
 
     }
 
-    public function update($id)
+    public function update(Article $article)
     {
     	// Persist the edited resource
         
@@ -81,8 +98,6 @@ class ArticlesController extends Controller
             'body' => 'required'
         ]); 
         
-        $article = Article::find($id);
-
         $article->title = request('title');
         $article->excerpt = request('excerpt');
         $article->body = request('body'); 
