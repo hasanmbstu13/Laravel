@@ -48,21 +48,31 @@ class ArticlesController extends Controller
         // Store the new articles on the database
         
         // Validation
-        request()->validate([
-            // 'title' => ['required', 'min3', 'max:255'],
-            'title' => 'required',
-            'excerpt' => 'required',
-            'body' => 'required'
-        ]);
+        // Article::create(request()->validate([
+        //     // 'title' => ['required', 'min3', 'max:255'],
+        //     'title' => 'required',
+        //     'excerpt' => 'required',
+        //     'body' => 'required'
+        // ]));
+        
+        Article::create($this->validateArticle());
+
+       // return $validatedAttributes;
          
-        // Straight and super simple way
-        $article = new Article();
+        // // Straight and super simple way
+        // $article = new Article();
 
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body');
+        // $article->title = request('title');
+        // $article->excerpt = request('excerpt');
+        // $article->body = request('body');
 
-        $article->save();
+        // $article->save();
+        
+        // Article::create([
+        //     'title' => request('title'),
+        //     'excerpt' => request('excerpt'),
+        //     'body' => request('body')
+        // ]);
 
         return redirect('/articles');
 
@@ -91,20 +101,31 @@ class ArticlesController extends Controller
     	// Persist the edited resource
         
         // Validation
-        request()->validate([
-            // 'title' => ['required', 'min3', 'max:255'],
-            'title' => 'required',
-            'excerpt' => 'required',
-            'body' => 'required'
-        ]); 
+        // $article->update(request()->validate([
+        //     // 'title' => ['required', 'min3', 'max:255'],
+        //     'title' => 'required',
+        //     'excerpt' => 'required',
+        //     'body' => 'required'
+        // ])); 
         
-        $article->title = request('title');
-        $article->excerpt = request('excerpt');
-        $article->body = request('body'); 
-        $article->save();
+        $article->update($this->validateArticle());
+        
+        // $article->title = request('title');
+        // $article->excerpt = request('excerpt');
+        // $article->body = request('body'); 
+        // $article->save();
 
         return redirect('/articles/'.$article->id);
 
+    }
+
+    protected function validateArticle()
+    {
+        return request()->validate([
+            'title' => 'required',
+            'excerpt' => 'required',
+            'body' => 'required'
+        ]);
     }
 
     public function destroy($id) 
