@@ -74,7 +74,8 @@ class ArticlesController extends Controller
         //     'body' => request('body')
         // ]);
 
-        return redirect('/articles');
+        // return redirect('/articles');
+        return redirect(route('articles.index'));
 
     }
 
@@ -115,7 +116,8 @@ class ArticlesController extends Controller
         // $article->body = request('body'); 
         // $article->save();
 
-        return redirect('/articles/'.$article->id);
+        // return redirect('/articles/'.$article->id);
+        return redirect(route('articles.show', $article));
 
     }
 
