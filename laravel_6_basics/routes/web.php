@@ -11,15 +11,27 @@
 |
 */
 
+Route::get('/', function() {
+	$container = new \App\Container();
+
+	$container->bind('example', function() {
+		return new \App\Example();
+	});
+
+	$example = $container->resolve('example');
+
+	$example->go();
+});
+
 Route::get('/about', function() {
 	return view('about', [
 		'articles' => App\Article::take(3)->latest()->get()
 	]);
 });
 
-Route::get('/', function() {
-	return view('welcome');
-});
+// Route::get('/', function() {
+// 	return view('welcome');
+// });
 
 Route::get('/articles', 'ArticlesController@index')->name('articles.index');
 Route::post('/articles', 'ArticlesController@store');
