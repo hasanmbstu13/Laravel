@@ -11,17 +11,36 @@
 |
 */
 
+//How Laravel Service Container works?
+//We can access laravel service container by app()
+
+//Simple example of Laravel service container access
+//app()->bind('example', function() {
+//    // Here services is the file name and foo is the key name
+//    $foo = config('services.foo');
+//   return new \App\Example($foo);
+//});
+
 Route::get('/', function() {
-	$container = new \App\Container();
-
-	$container->bind('example', function() {
-		return new \App\Example();
-	});
-
-	$example = $container->resolve('example');
-
-	$example->go();
+    // Another way to call the sevice container
+   // $example = resolve(App\Example::class);
+//   $example = resolve('example');
+    $example = resolve(App\Example::class);
+   ddd($example);
 });
+
+
+//Route::get('/', function() {
+//	$container = new \App\Container();
+//
+//	$container->bind('example', function() {
+//		return new \App\Example();
+//	});
+//
+//	$example = $container->resolve('example');
+//
+//	$example->go();
+//});
 
 Route::get('/about', function() {
 	return view('about', [
