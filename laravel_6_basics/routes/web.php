@@ -21,13 +21,19 @@
 //   return new \App\Example($foo);
 //});
 
-Route::get('/', function() {
-    // Another way to call the sevice container
-   // $example = resolve(App\Example::class);
-//   $example = resolve('example');
-    $example = resolve(App\Example::class);
-   ddd($example);
-});
+Route::get('/', 'PagesController@home');
+Route::get('/contact', 'ContactController@show');
+Route::post('/contact', 'ContactController@store');
+
+//Route::get('/', function() {
+//Route::get('/', function(App\Example $example) {
+//    // Another way to call the sevice container
+//   // $example = resolve(App\Example::class);
+////   $example = resolve('example');
+////    $example = resolve(App\Example::class);
+////    $example = app()->make(App\Example::class);
+//   ddd($example);
+//});
 
 
 //Route::get('/', function() {
