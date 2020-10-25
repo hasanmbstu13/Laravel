@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Example;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 
@@ -14,7 +15,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+//        app()->bind('App\Example', function(){
+//        $this->app->bind('App\Example', function(){
+////        $this->app->singleton('App\Example', function(){
+//            $collaborator = new \App\Collaborator();
+//            $foo = 'foobar';
+//
+//            return new \App\Example($collaborator, $foo);
+//        });
+
+        $this->app->bind('example', function () {
+            return new Example();
+        });
+
     }
 
     /**

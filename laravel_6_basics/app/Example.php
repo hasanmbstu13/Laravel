@@ -19,14 +19,21 @@ class Example
 //		dump('it works!');
 //	}
 
-    protected $collaborator;
+//    protected $collaborator;
+//
+//    protected $foo;
+//
+//    /**
+//     * Example constructor
+//     * @param $collaborator
+//     */
+//    public function __construct(Collaborator $collaborator, $foo)
+//    {
+//        $this->collaborator = $collaborator;
+//        $this->foo = $foo;
+//    }
 
-    /**
-     * Example constructor
-     * @param $collaborator
-     */
-    public function __construct(Collaborator $collaborator)
-    {
-        $this->collaborator = $collaborator;
+    public function handle() {
+        die('it works');
     }
 }
