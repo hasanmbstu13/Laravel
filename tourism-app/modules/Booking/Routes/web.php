@@ -14,6 +14,7 @@ Route::group(['prefix'=>config('booking.booking_route_prefix')],function(){
 	Route::get('/export-ical/{type}/{id}','BookingController@exportIcal')->name('booking.admin.export-ical');
     //inquiry
     Route::post('/addEnquiry','BookingController@addEnquiry');
+    Route::post('/addRequestQuote','BookingController@addRequestQuote');
     Route::post('/setPaidAmount','BookingController@setPaidAmount');
 });
 

@@ -22,6 +22,7 @@ use Modules\Booking\Models\Booking;
 use App\Helpers\ReCaptchaEngine;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Modules\Booking\Models\Enquiry;
+use Modules\Booking\Models\RequestQuote;
 use Illuminate\Support\Str;
 
 class UserController extends FrontendController
@@ -29,10 +30,12 @@ class UserController extends FrontendController
     use AuthenticatesUsers;
 
     protected $enquiryClass;
+    protected $requestQuoteClass;
 
     public function __construct()
     {
         $this->enquiryClass = Enquiry::class;
+        $this->requestQuoteClass = RequestQuote::class;
         parent::__construct();
     }
 
@@ -393,7 +396,29 @@ class UserController extends FrontendController
             ],
             'page_title'  => __("Enquiry Report"),
         ];
+//        echo '<pre>'; print_r($data); echo '</pre>'; exit;
         return view('User::frontend.enquiryReport', $data);
+    }
+
+    public function requestQuoteReport(Request $request){
+        $this->checkPermission('request_quote_view');
+        $user_id = Auth::id();
+        $rows = $this->requestQuoteClass::where("vendor_id",$user_id)
+            ->whereIn('object_model',array_keys(get_bookable_services()))
+            ->orderBy('id', 'desc');
+        $data = [
+            'rows'        => $rows->paginate(5),
+            'statues'     => $this->requestQuoteClass::$requestQuoteStatus,
+            'has_permission_request_quote_update' => $this->hasPermission('request_quote_update'),
+            'breadcrumbs' => [
+                [
+                    'name'  => __('Request Quote Report'),
+                    'class' => 'active'
+                ],
+            ],
+            'page_title'  => __("Request Quote Report"),
+        ];
+        return view('User::frontend.requestQuoteReport', $data);
     }
 
     public function enquiryReportBulkEdit($enquiry_id, Request $request)
@@ -409,6 +434,23 @@ class UserController extends FrontendController
                 return redirect()->back()->with('success', __('Update success'));
             }
             return redirect()->back()->with('error', __('Enquiry not found!'));
+        }
+        return redirect()->back()->with('error', __('Update fail!'));
+    }
+
+    public function requestQuoteReportBulkEdit($request_quote_id, Request $request)
+    {
+        $status = $request->input('status');
+        if (!empty( $this->hasPermission('request_quote_update') ) and !empty($status) and !empty($request_quote_id)) {
+            $query = $this->requestQuoteClass::where("id", $request_quote_id);
+            $query->where("vendor_id", Auth::id());
+            $item = $query->first();
+            if (!empty($item)) {
+                $item->status = $status;
+                $item->save();
+                return redirect()->back()->with('success', __('Update success'));
+            }
+            return redirect()->back()->with('error', __('Request Quote not found!'));
         }
         return redirect()->back()->with('error', __('Update fail!'));
     }

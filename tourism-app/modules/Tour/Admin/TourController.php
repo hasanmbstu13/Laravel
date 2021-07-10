@@ -209,6 +209,10 @@
             $row->default_state = $request->input('default_state', 1);
             $row->enable_service_fee = $request->input('enable_service_fee');
             $row->service_fee = $request->input('service_fee');
+            $row->ea_enable_service_fee = $request->input('ea_enable_service_fee');
+            $row->ea_service_fee = $request->input('ea_service_fee');
+            $row->tz_enable_service_fee = $request->input('tz_enable_service_fee');
+            $row->tz_service_fee = $request->input('tz_service_fee');
             $res = $row->saveOriginOrTranslation($request->input('lang'), true);
             if ($res) {
                 if (!$request->input('lang') or is_default_lang($request->input('lang'))) {

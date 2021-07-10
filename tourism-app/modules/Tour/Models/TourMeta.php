@@ -15,6 +15,16 @@ class TourMeta extends BaseModel
         'enable_open_hours',
         'open_hours',
         'discount_by_people',
+        'ea_enable_person_types',
+        'ea_person_types',
+        'ea_enable_extra_price',
+        'ea_extra_price',
+        'ea_discount_by_people',
+        'tz_enable_person_types',
+        'tz_person_types',
+        'tz_enable_extra_price',
+        'tz_extra_price',
+        'tz_discount_by_people',
     ];
     /**
      * The attributes that should be casted to native types.
@@ -26,6 +36,12 @@ class TourMeta extends BaseModel
         'extra_price'        => 'array',
         'open_hours'         => 'array',
         'discount_by_people' => 'array',
+        'ea_person_types'       => 'array',
+        'ea_extra_price'        => 'array',
+        'ea_discount_by_people' => 'array',
+        'tz_person_types'       => 'array',
+        'tz_extra_price'        => 'array',
+        'tz_discount_by_people' => 'array',
     ];
 
     public function fill(array $attributes)

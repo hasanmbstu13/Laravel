@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Booking\Models\Booking;
 use Modules\Booking\Models\Enquiry;
+use Modules\Booking\Models\RequestQuote;
 use App\Helpers\ReCaptchaEngine;
 
 class BookingController extends \App\Http\Controllers\Controller
@@ -26,12 +27,14 @@ class BookingController extends \App\Http\Controllers\Controller
     use AuthorizesRequests;
     protected $booking;
     protected $enquiryClass;
+    protected $requestQuoteClass;
     protected $bookingInst;
 
     public function __construct()
     {
         $this->booking = Booking::class;
         $this->enquiryClass = Enquiry::class;
+        $this->requestQuoteClass = RequestQuote::class;
     }
 
     protected function validateCheckout($code){
@@ -518,6 +521,59 @@ class BookingController extends \App\Http\Controllers\Controller
         $row->vendor_id = $service->create_user;
         $row->save();
         event(new EnquirySendEvent($row));
+        return $this->sendSuccess([
+            'message' => __("Thank you for contacting us! We will be in contact shortly.")
+        ]);
+    }
+
+    public function addRequestQuote(Request $request){
+        $rules =  [
+            'request_quote_service_id'   => 'required|integer',
+            'request_quote_service_type' => 'required',
+            'request_quote_name' => 'required',
+            'request_quote_email' => [
+                'required',
+                'email',
+                'max:255',
+            ],
+        ];
+
+        $validator = Validator::make($request->all(),$rules);
+        if ($validator->fails()) {
+            return $this->sendError('', ['errors' => $validator->errors()]);
+        }
+
+//        if(setting_item('booking_request_quote_enable_recaptcha')){
+//            $codeCapcha = trim($request->input('g-recaptcha-response'));
+//            if(empty($codeCapcha) or !ReCaptchaEngine::verify($codeCapcha)){
+//                return $this->sendError(__("Please verify the captcha"));
+//            }
+//        }
+
+        $service_type = $request->input('request_quote_service_type');
+        $service_id = $request->input('request_quote_service_id');
+        $allServices = get_bookable_services();
+        if (empty($allServices[$service_type])) {
+            return $this->sendError(__('Service type not found'));
+        }
+        $module = $allServices[$service_type];
+        $service = $module::find($service_id);
+        if (empty($service) or !is_subclass_of($service, '\\Modules\\Booking\\Models\\Bookable')) {
+            return $this->sendError(__('Service not found'));
+        }
+        $row = new $this->requestQuoteClass();
+        $row->fill([
+            'name'=>$request->input('request_quote_name'),
+            'email'=>$request->input('request_quote_email'),
+            'phone'=>$request->input('request_quote_phone'),
+            'note'=>$request->input('request_quote_note'),
+        ]);
+        $row->object_id = $request->input("request_quote_service_id");
+        $row->object_model = $request->input("request_quote_service_type");
+        $row->status = "pending";
+        $row->vendor_id = $service->create_user;
+        $row->save();
+//        event(new EnquirySendEvent($row));
         return $this->sendSuccess([
             'message' => __("Thank you for contacting us! We will be in contact shortly.")
         ]);

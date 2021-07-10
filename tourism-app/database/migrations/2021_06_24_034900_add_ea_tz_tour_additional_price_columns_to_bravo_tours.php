@@ -23,14 +23,22 @@ class AddEaTzTourAdditionalPriceColumnsToBravoTours extends Migration
             $table->integer('ea_min_people')->nullable();
             $table->integer('ea_max_people')->nullable();
 
+            // EA Service
+            $table->tinyInteger('ea_enable_service_fee')->nullable();
+            $table->text('ea_service_fee')->nullable();
+
             //TZ Price
-            $table->decimal('ez_price', 12,2)->nullable();
-            $table->decimal('ez_sale_price', 12,2)->nullable();
+            $table->decimal('tz_price', 12,2)->nullable();
+            $table->decimal('tz_sale_price', 12,2)->nullable();
 
             //TZ Tour type
-            $table->integer('ez_duration')->nullable();
-            $table->integer('ez_min_people')->nullable();
-            $table->integer('ez_max_people')->nullable();
+            $table->integer('tz_duration')->nullable();
+            $table->integer('tz_min_people')->nullable();
+            $table->integer('tz_max_people')->nullable();
+
+            // TZ Service
+            $table->tinyInteger('tz_enable_service_fee')->nullable();
+            $table->text('tz_service_fee')->nullable();
         });
     }
 
@@ -47,11 +55,11 @@ class AddEaTzTourAdditionalPriceColumnsToBravoTours extends Migration
             $table->dropColumn('ea_duration');
             $table->dropColumn('ea_min_people');
             $table->dropColumn('ea_max_people');
-            $table->dropColumn('ez_price');
-            $table->dropColumn('ez_sale_price');
-            $table->dropColumn('ez_duration');
-            $table->dropColumn('ez_min_people');
-            $table->dropColumn('ez_max_people');
+            $table->dropColumn('tz_price');
+            $table->dropColumn('tz_sale_price');
+            $table->dropColumn('tz_duration');
+            $table->dropColumn('tz_min_people');
+            $table->dropColumn('tz_max_people');
         });
     }
 }
