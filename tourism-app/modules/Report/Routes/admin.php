@@ -9,4 +9,6 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'booking'],function (){
     Route::get('/','BookingController@index')->name('report.admin.booking');
     Route::get('/email_preview/{id}','BookingController@email_preview')->name('report.booking.email_preview');
+    Route::get('/edit/{id}', 'RequestQuoteController@edit')->name('report.admin.edit');
 });
+Route::post('/store/{id}', 'RequestQuoteController@store')->name('report.admin.store');

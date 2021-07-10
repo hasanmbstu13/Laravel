@@ -112,6 +112,14 @@ class ModuleProvider extends ModuleServiceProvider
             'permission' => 'enquiry_view',
         ];
 
+        $res['request_quote']= [
+            'position'   => 48,
+            'icon'       => 'icon ion-md-cart',
+            'url'        => route('vendor.request_quote_report'),
+            'title'      => __("Request Quote Report"),
+            'permission' => 'request_quote_view',
+        ];
+
         if(setting_item('inbox_enable')) {
             $res['chat'] = [
                 'position' => 20,

@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Modules\Booking\Events\EnquirySendEvent;
+use Modules\Booking\Events\RequestQuoteSendEvent;
 use Modules\Booking\Events\VendorLogPayment;
 use Modules\Booking\Listeners\EnquiryNotifyListen;
 use Modules\Booking\Listeners\EnquirySendListen;
@@ -57,6 +58,10 @@ class EventServiceProvider extends ServiceProvider
         EnquirySendEvent::class=>[
             EnquirySendListen::class,
             EnquiryNotifyListen::class
+        ],
+        RequestQuoteSendEvent::class=>[
+            RequestQuoteSendListen::class,
+            RequestQuoteNotifyListen::class
         ]
     ];
 

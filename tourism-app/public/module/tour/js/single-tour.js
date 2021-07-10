@@ -4,7 +4,11 @@
         data:{
             id:'',
             extra_price:[],
+            ea_extra_price:[],
+            tz_extra_price:[],
             person_types:[],
+            ea_person_types:[],
+            tz_person_types:[],
             message:{
                 content:'',
                 type:false
@@ -16,6 +20,8 @@
             step:1,
             guests:1,
             price:0,
+            ea_price:0,
+            tz_price:0,
             total_price_before_fee:0,
             total_price_fee:0,
             max_guests:1,
@@ -23,6 +29,8 @@
             duration:0,
             allEvents:[],
 			buyer_fees:[],
+			ea_buyer_fees:[],
+			tz_buyer_fees:[],
 
             is_form_enquiry_and_book:false,
             enquiry_type:'book',
@@ -31,6 +39,7 @@
             enquiry_email:"",
             enquiry_phone:"",
             enquiry_note:"",
+            custom_quote_price: ""
         },
         watch:{
             extra_price:{
@@ -39,13 +48,34 @@
                 },
                 deep:true
             },
-            start_date(){
-                this.step = 1;
+            ea_extra_price:{
+                handler:function f() {
+                    this.step = 1;
+                },
+                deep:true
+            },
+            tz_extra_price:{
+                handler:function f() {
+                    this.step = 1;
+                },
+                deep:true
             },
             guests(){
                 this.step = 1;
             },
             person_types:{
+                handler:function f() {
+                    this.step = 1;
+                },
+                deep:true
+            },
+            ea_person_types:{
+                handler:function f() {
+                    this.step = 1;
+                },
+                deep:true
+            },
+            tz_person_types:{
                 handler:function f() {
                     this.step = 1;
                 },
@@ -61,7 +91,15 @@
                     if (cur_date === startDate) {
                         if (item.person_types != null) {
                             me.person_types = Object.assign([], item.person_types);
-                        } else {
+                        }
+
+                        if (item.ea_person_types != null) {
+                            me.ea_person_types = Object.assign([], item.ea_person_types);
+                        }
+                        if (item.tz_person_types != null) {
+                            me.tz_person_types = Object.assign([], item.tz_person_types);
+                        }
+                        if(item.person_types == null && item.ea_person_types == null && item.tz_person_types == null) {
                             me.person_types = null
                         }
                         me.max_guests = parseInt(item.max_guests);
@@ -73,7 +111,13 @@
         computed:{
             total_price:function(){
                 var me = this;
-                if (me.start_date !== "") {
+                var custom_quote_el = $('#custom-quote-price');
+                this.custom_quote_price = custom_quote_el.length ? custom_quote_el.val() : '';
+                if(this.custom_quote_price !== 'undefined' && this.custom_quote_price) {
+                    this.total_price_fee = this.custom_quote_price;
+                    this.total_price_before_fee = this.custom_quote_price;
+                    return this.custom_quote_price;
+                }else if (me.start_date !== "") {
                     var total = 0;
                     var total_guests = 0;
                     var startDate = new Date(me.start_date).getTime();
@@ -84,37 +128,110 @@
                             total += parseFloat(person_type.price) * parseInt(person_type.number);
                             total_guests += parseInt(person_type.number);
                         }
-                    }else{
-                        // for default
-                        total_guests = me.guests;
-                        total += me.guests * me.price;
                     }
-
-                    for (var ix in me.extra_price) {
-                        var item = me.extra_price[ix];
-                        var type_total = 0;
-                        if (item.enable === true) {
-                            switch (item.type) {
-                                case "one_time":
-                                    type_total += parseFloat(item.price);
-                                    break;
-                                case "per_hour":
-                                    if (me.duration > 0) {
-                                        type_total += parseFloat(item.price) * parseFloat(me.duration);
-                                    }
-                                    break;
-                                case "per_day":
-                                    if (me.duration > 0) {
-                                        type_total += parseFloat(item.price) * Math.ceil(parseFloat(me.duration) / 24);
-                                    }
-                                    break;
-                            }
-                            if (typeof item.per_person !== "undefined") {
-                                type_total = type_total * total_guests;
-                            }
-                            total += type_total;
+                    if(me.ea_person_types != null) {
+                        for (var ix in me.ea_person_types) {
+                            var person_type = me.ea_person_types[ix];
+                            total += parseFloat(person_type.price) * parseInt(person_type.number);
+                            total_guests += parseInt(person_type.number);
                         }
                     }
+                        if(me.tz_person_types != null) {
+                            for (var ix in me.tz_person_types) {
+                                var person_type = me.tz_person_types[ix];
+                                total += parseFloat(person_type.price) * parseInt(person_type.number);
+                                total_guests += parseInt(person_type.number);
+                            }
+                    }
+
+                    // else{
+                    //     // for default
+                    //     total_guests = me.guests;
+                    //     total += me.guests * me.price;
+                    // }
+
+                    if(me.extra_price != null){
+                        for (var ix in me.extra_price) {
+                            var item = me.extra_price[ix];
+                            var type_total = 0;
+                            if (item.enable === true) {
+                                switch (item.type) {
+                                    case "one_time":
+                                        type_total += parseFloat(item.price);
+                                        break;
+                                    case "per_hour":
+                                        if (me.duration > 0) {
+                                            type_total += parseFloat(item.price) * parseFloat(me.duration);
+                                        }
+                                        break;
+                                    case "per_day":
+                                        if (me.duration > 0) {
+                                            type_total += parseFloat(item.price) * Math.ceil(parseFloat(me.duration) / 24);
+                                        }
+                                        break;
+                                }
+                                if (typeof item.per_person !== "undefined") {
+                                    type_total = type_total * total_guests;
+                                }
+                                total += type_total;
+                            }
+                        }
+                    }
+                    if(me.ea_extra_price != null){
+                        for (var ix in me.ea_extra_price) {
+                            var item = me.ea_extra_price[ix];
+                            var type_total = 0;
+                            if (item.enable === true) {
+                                switch (item.type) {
+                                    case "one_time":
+                                        type_total += parseFloat(item.price);
+                                        break;
+                                    case "per_hour":
+                                        if (me.duration > 0) {
+                                            type_total += parseFloat(item.price) * parseFloat(me.duration);
+                                        }
+                                        break;
+                                    case "per_day":
+                                        if (me.duration > 0) {
+                                            type_total += parseFloat(item.price) * Math.ceil(parseFloat(me.duration) / 24);
+                                        }
+                                        break;
+                                }
+                                if (typeof item.per_person !== "undefined") {
+                                    type_total = type_total * total_guests;
+                                }
+                                total += type_total;
+                            }
+                        }
+                    }
+                    if(me.tz_extra_price != null){
+                        for (var ix in me.tz_extra_price) {
+                            var item = me.tz_extra_price[ix];
+                            var type_total = 0;
+                            if (item.enable === true) {
+                                switch (item.type) {
+                                    case "one_time":
+                                        type_total += parseFloat(item.price);
+                                        break;
+                                    case "per_hour":
+                                        if (me.duration > 0) {
+                                            type_total += parseFloat(item.price) * parseFloat(me.duration);
+                                        }
+                                        break;
+                                    case "per_day":
+                                        if (me.duration > 0) {
+                                            type_total += parseFloat(item.price) * Math.ceil(parseFloat(me.duration) / 24);
+                                        }
+                                        break;
+                                }
+                                if (typeof item.per_person !== "undefined") {
+                                    type_total = type_total * total_guests;
+                                }
+                                total += type_total;
+                            }
+                        }
+                    }
+
 
                     this.total_price_before_fee = total;
 
@@ -291,6 +408,9 @@
                 return window.bravo_format_money(m);
             },
             validate(){
+                if(this.custom_quote_price){
+                    return  true;
+                }
                 if(!this.start_date)
                 {
                     this.message.status = false;
@@ -345,7 +465,11 @@
                         service_type:'tour',
                         start_date:this.start_date,
                         person_types:this.person_types,
+                        ea_person_types:this.ea_person_types,
+                        tz_person_types:this.tz_person_types,
                         extra_price:this.extra_price,
+                        ea_extra_price:this.ea_extra_price,
+                        tz_extra_price:this.tz_extra_price,
                         guests:this.guests
                     },
                     dataType:'json',

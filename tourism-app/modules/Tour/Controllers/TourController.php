@@ -103,7 +103,9 @@
                 'booking_data' => $row->getBookingData(),
                 'review_list' => $review_list,
                 'seo_meta' => $row->getSeoMetaWithTranslation(app()->getLocale(), $translation),
-                'body_class'=>'is_single'
+                'body_class'=>'is_single',
+                'custom_quote_price' => $request->has('custom_quote_price') ? $request->input('custom_quote_price') : '',
+                'custom_quote_request' => $request->has('custom_quote_request') ? $request->input('custom_quote_request'): ''
             ];
             $this->setActiveMenu($row);
             return view('Tour::frontend.detail', $data);

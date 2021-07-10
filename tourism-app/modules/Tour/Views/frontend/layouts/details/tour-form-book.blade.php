@@ -25,7 +25,11 @@
                     <span>{{ __("Enquiry") }}</span>
                 </div>
             </div>
+                @if(!empty($custom_quote_request))
+                <input id="custom-quote-price" type="hidden"  name="custom_quote_price" value="{{$custom_quote_price}}">
+                @endif
             <div class="form-book" :class="{'d-none':enquiry_type!='book'}">
+                @if(empty($custom_quote_request))
                 <div class="form-content">
                     <div class="form-group form-date-field form-date-search clearfix " data-format="{{get_moment_date_format()}}">
                         <div class="date-wrapper clearfix" @click="openStartDate">
@@ -37,69 +41,233 @@
                         </div>
                         <input type="text" class="start_date" ref="start_date" style="height: 1px; visibility: hidden">
                     </div>
-                    <div class="" v-if="person_types">
-                        <div class="form-group form-guest-search" v-for="(type,index) in person_types">
-                            <div class="guest-wrapper d-flex justify-content-between align-items-center">
-                                <div class="flex-grow-1">
-                                    <label>@{{type.name}}</label>
-                                    <div class="render check-in-render">@{{type.desc}}</div>
-                                    <div class="render check-in-render">@{{type.display_price}} {{__("per person")}}</div>
+                    <div class="form-group">
+                        <div class="date-wrapper clearfix">
+                            <div class="check-in-wrapper">
+                                <label>{{__("Default Pricing")}}</label>
+                            </div>
+                            <i class="fa fa-angle-down arrow" data-toggle="collapse" href="#defaultPricing" role="button" aria-expanded="false" aria-controls="defaultPricing"></i>
+                        </div>
+                    </div>
+                    <div class="collapse" id="defaultPricing">
+                        <div class="card card-body">
+                            <div class="" v-if="person_types">
+                                <div class="form-group form-guest-search" v-for="(type,index) in person_types">
+                                    <div class="guest-wrapper d-flex justify-content-between align-items-center">
+                                        <div class="flex-grow-1">
+                                            <label>@{{type.name}}</label>
+                                            <div class="render check-in-render">@{{type.desc}}</div>
+                                            <div class="render check-in-render">@{{type.display_price}} {{__("per person")}}</div>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="input-number-group">
+                                                <i class="icon ion-ios-remove-circle-outline" @click="minusPersonType(type)"></i>
+                                                <span class="input"><input type="number" v-model="type.number" min="1" @change="changePersonType(type)"/></span>
+                                                <i class="icon ion-ios-add-circle-outline" @click="addPersonType(type)"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="flex-shrink-0">
-                                    <div class="input-number-group">
-                                        <i class="icon ion-ios-remove-circle-outline" @click="minusPersonType(type)"></i>
-                                        <span class="input"><input type="number" v-model="type.number" min="1" @change="changePersonType(type)"/></span>
-                                        <i class="icon ion-ios-add-circle-outline" @click="addPersonType(type)"></i>
+                            </div>
+                            <div class="form-group form-guest-search" v-else>
+                                <div class="guest-wrapper d-flex justify-content-between align-items-center">
+                                    <div class="flex-grow-1">
+                                        <label>{{__("Guests")}}</label>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <div class="input-number-group">
+                                            <i class="icon ion-ios-remove-circle-outline" @click="minusGuestsType()"></i>
+                                            <span class="input"><input type="number" v-model="guests" min="1"/></span>
+                                            <i class="icon ion-ios-add-circle-outline" @click="addGuestsType()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section-group form-group" v-if="extra_price.length">
+                                <h4 class="form-section-title">{{__('Extra prices:')}}</h4>
+                                <div class="form-group" v-for="(type,index) in extra_price">
+                                    <div class="extra-price-wrap d-flex justify-content-between">
+                                        <div class="flex-grow-1">
+                                            <label><input type="checkbox" v-model="type.enable"> @{{type.name}}</label>
+                                            <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
+                                        </div>
+                                        <div class="flex-shrink-0">@{{type.price_html}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section-group form-group-padding" v-if="buyer_fees.length">
+                                <div class="extra-price-wrap d-flex justify-content-between" v-for="(type,index) in buyer_fees">
+                                    <div class="flex-grow-1">
+                                        <label>@{{type.type_name}}
+                                            <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip" data-placement="top" :title="type.type_desc"></i>
+                                        </label>
+                                        <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <div class="unit" v-if='type.unit == "percent"'>
+                                            @{{ type.price }}%
+                                        </div>
+                                        <div class="unit" v-else >
+                                            @{{ formatMoney(type.price) }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group form-guest-search" v-else>
-                        <div class="guest-wrapper d-flex justify-content-between align-items-center">
-                            <div class="flex-grow-1">
-                                <label>{{__("Guests")}}</label>
+
+                    <div class="form-group">
+                        <div class="date-wrapper clearfix">
+                            <div class="check-in-wrapper">
+                                <label>{{__("EA Citizens Pricing")}}</label>
                             </div>
-                            <div class="flex-shrink-0">
-                                <div class="input-number-group">
-                                    <i class="icon ion-ios-remove-circle-outline" @click="minusGuestsType()"></i>
-                                    <span class="input"><input type="number" v-model="guests" min="1"/></span>
-                                    <i class="icon ion-ios-add-circle-outline" @click="addGuestsType()"></i>
+                            <i class="fa fa-angle-down arrow" data-toggle="collapse" href="#eaCitizensPricing" role="button" aria-expanded="false" aria-controls="eaCitizensPricing"></i>
+                        </div>
+                    </div>
+                    <div class="collapse" id="eaCitizensPricing">
+                        <div class="card card-body">
+                            <div class="" v-if="ea_person_types">
+                                <div class="form-group form-guest-search" v-for="(type,index) in ea_person_types">
+                                    <div class="guest-wrapper d-flex justify-content-between align-items-center">
+                                        <div class="flex-grow-1">
+                                            <label>@{{type.name}}</label>
+                                            <div class="render check-in-render">@{{type.desc}}</div>
+                                            <div class="render check-in-render">@{{type.display_price}} {{__("per person")}}</div>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="input-number-group">
+                                                <i class="icon ion-ios-remove-circle-outline" @click="minusPersonType(type)"></i>
+                                                <span class="input"><input type="number" v-model="type.number" min="1" @change="changePersonType(type)"/></span>
+                                                <i class="icon ion-ios-add-circle-outline" @click="addPersonType(type)"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group form-guest-search" v-else>
+                                <div class="guest-wrapper d-flex justify-content-between align-items-center">
+                                    <div class="flex-grow-1">
+                                        <label>{{__("Guests")}}</label>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <div class="input-number-group">
+                                            <i class="icon ion-ios-remove-circle-outline" @click="minusGuestsType()"></i>
+                                            <span class="input"><input type="number" v-model="guests" min="1"/></span>
+                                            <i class="icon ion-ios-add-circle-outline" @click="addGuestsType()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section-group form-group" v-if="ea_extra_price.length">
+                                <h4 class="form-section-title">{{__('Extra prices:')}}</h4>
+                                <div class="form-group" v-for="(type,index) in ea_extra_price">
+                                    <div class="ea_extra-price-wrap d-flex justify-content-between">
+                                        <div class="flex-grow-1">
+                                            <label><input type="checkbox" v-model="type.enable"> @{{type.name}}</label>
+                                            <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
+                                        </div>
+                                        <div class="flex-shrink-0">@{{type.price_html}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section-group form-group-padding" v-if="ea_buyer_fees.length">
+                                <div class="ea_extra-price-wrap d-flex justify-content-between" v-for="(type,index) in ea_buyer_fees">
+                                    <div class="flex-grow-1">
+                                        <label>@{{type.type_name}}
+                                            <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip" data-placement="top" :title="type.type_desc"></i>
+                                        </label>
+                                        <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <div class="unit" v-if='type.unit == "percent"'>
+                                            @{{ type.price }}%
+                                        </div>
+                                        <div class="unit" v-else >
+                                            @{{ formatMoney(type.price) }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-section-group form-group" v-if="extra_price.length">
-                        <h4 class="form-section-title">{{__('Extra prices:')}}</h4>
-                        <div class="form-group" v-for="(type,index) in extra_price">
-                            <div class="extra-price-wrap d-flex justify-content-between">
-                                <div class="flex-grow-1">
-                                    <label><input type="checkbox" v-model="type.enable"> @{{type.name}}</label>
-                                    <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
+
+                    <div class="form-group">
+                        <div class="date-wrapper clearfix">
+                            <div class="check-in-wrapper">
+                                <label>{{__("TZ Residents Pricing")}}</label>
+                            </div>
+                            <i class="fa fa-angle-down arrow" data-toggle="collapse" href="#tzCitizensPricing" role="button" aria-expanded="false" aria-controls="tzCitizensPricing"></i>
+                        </div>
+                    </div>
+                    <div class="collapse" id="tzCitizensPricing">
+                        <div class="card card-body">
+                            <div class="" v-if="tz_person_types">
+                                <div class="form-group form-guest-search" v-for="(type,index) in tz_person_types">
+                                    <div class="guest-wrapper d-flex justify-content-between align-items-center">
+                                        <div class="flex-grow-1">
+                                            <label>@{{type.name}}</label>
+                                            <div class="render check-in-render">@{{type.desc}}</div>
+                                            <div class="render check-in-render">@{{type.display_price}} {{__("per person")}}</div>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <div class="input-number-group">
+                                                <i class="icon ion-ios-remove-circle-outline" @click="minusPersonType(type)"></i>
+                                                <span class="input"><input type="number" v-model="type.number" min="1" @change="changePersonType(type)"/></span>
+                                                <i class="icon ion-ios-add-circle-outline" @click="addPersonType(type)"></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="flex-shrink-0">@{{type.price_html}}</div>
+                            </div>
+                            <div class="form-group form-guest-search" v-else>
+                                <div class="guest-wrapper d-flex justify-content-between align-items-center">
+                                    <div class="flex-grow-1">
+                                        <label>{{__("Guests")}}</label>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <div class="input-number-group">
+                                            <i class="icon ion-ios-remove-circle-outline" @click="minusGuestsType()"></i>
+                                            <span class="input"><input type="number" v-model="guests" min="1"/></span>
+                                            <i class="icon ion-ios-add-circle-outline" @click="addGuestsType()"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section-group form-group" v-if="tz_extra_price.length">
+                                <h4 class="form-section-title">{{__('Extra prices:')}}</h4>
+                                <div class="form-group" v-for="(type,index) in tz_extra_price">
+                                    <div class="tz_extra-price-wrap d-flex justify-content-between">
+                                        <div class="flex-grow-1">
+                                            <label><input type="checkbox" v-model="type.enable"> @{{type.name}}</label>
+                                            <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
+                                        </div>
+                                        <div class="flex-shrink-0">@{{type.price_html}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section-group form-group-padding" v-if="tz_buyer_fees.length">
+                                <div class="tz_extra-price-wrap d-flex justify-content-between" v-for="(type,index) in tz_buyer_fees">
+                                    <div class="flex-grow-1">
+                                        <label>@{{type.type_name}}
+                                            <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip" data-placement="top" :title="type.type_desc"></i>
+                                        </label>
+                                        <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
+                                    </div>
+                                    <div class="flex-shrink-0">
+                                        <div class="unit" v-if='type.unit == "percent"'>
+                                            @{{ type.price }}%
+                                        </div>
+                                        <div class="unit" v-else >
+                                            @{{ formatMoney(type.price) }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-section-group form-group-padding" v-if="buyer_fees.length">
-                        <div class="extra-price-wrap d-flex justify-content-between" v-for="(type,index) in buyer_fees">
-                            <div class="flex-grow-1">
-                                <label>@{{type.type_name}}
-                                    <i class="icofont-info-circle" v-if="type.desc" data-toggle="tooltip" data-placement="top" :title="type.type_desc"></i>
-                                </label>
-                                <div class="render" v-if="type.price_type">(@{{type.price_type}})</div>
-                            </div>
-                            <div class="flex-shrink-0">
-                                <div class="unit" v-if='type.unit == "percent"'>
-                                    @{{ type.price }}%
-                                </div>
-                                <div class="unit" v-else >
-                                    @{{ formatMoney(type.price) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
+                @endif
                 <ul class="form-section-total list-unstyled" v-if="total_price > 0">
                     <li>
                         <label>{{__("Total")}}</label>
@@ -124,7 +292,17 @@
                     {{ __("Contact Now") }}
                 </button>
             </div>
+
+            <div class="quote-link">
+                <p class="ml-3">Do you have any special requirements?</p>
+                <div class="form-send-enquiry">
+                    <button class="btn btn-info" data-toggle="modal" data-target="#custom_quote_form_modal">
+                        {{ __("Request a Quote?") }}
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 @include("Booking::frontend.global.enquiry-form",['service_type'=>'tour'])
+@include("Booking::frontend.global.custom-quote-form",['service_type'=>'tour'])

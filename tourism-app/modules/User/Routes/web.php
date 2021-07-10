@@ -13,7 +13,9 @@ Route::group(['prefix'=>'user','middleware' => ['auth','verified']],function(){
     Route::post('/profile/change-password','UserController@changePasswordUpdate')->name("user.change_password.update");
     Route::get('/booking-history','UserController@bookingHistory')->name("user.booking_history");
     Route::get('/enquiry-report','UserController@enquiryReport')->name("vendor.enquiry_report");
+    Route::get('/request-quote-report','UserController@requestQuoteReport')->name("vendor.request_quote_report");
     Route::get('/enquiry-report/bulkEdit/{id}','UserController@enquiryReportBulkEdit')->name("vendor.enquiry_report.bulk_edit");
+    Route::get('/request_quote_report/bulkEdit/{id}','UserController@requestQuoteReportBulkEdit')->name("vendor.request_quote_report.bulk_edit");
 
     Route::post('/wishlist','UserWishListController@handleWishList')->name("user.wishList.handle");
     Route::get('/wishlist','UserWishListController@index')->name("user.wishList.index");

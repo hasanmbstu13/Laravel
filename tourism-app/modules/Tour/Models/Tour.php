@@ -84,6 +84,8 @@ class Tour extends Bookable
         'exclude'   => 'array',
         'itinerary' => 'array',
         'service_fee' => 'array',
+        'ea_service_fee' => 'array',
+        'tz_service_fee' => 'array',
         'surrounding' => 'array',
 
     ];
@@ -178,6 +180,24 @@ class Tour extends Bookable
                     $param['start'] = $dates[0] ?? "";
                     $param['end'] = $dates[1] ?? "";
                 }
+            }
+        }
+        $urlDetail = app_get_locale(false, false, '/') . config('tour.tour_route_prefix') . "/" . $this->slug;
+        if (!empty($param)) {
+            $urlDetail .= "?" . http_build_query($param);
+        }
+        return url($urlDetail);
+    }
+
+    public function getRequestQuoteDetailUrl($include_param = true, $custom_quote_price = null, $custom_quote_request = null )
+    {
+        $param = [];
+        if ($include_param) {
+            if(!empty($custom_quote_price)) {
+                $param['custom_quote_price'] = $custom_quote_price;
+            }
+            if(!empty($custom_quote_request)) {
+                $param['custom_quote_request'] = $custom_quote_request;
             }
         }
         $urlDetail = app_get_locale(false, false, '/') . config('tour.tour_route_prefix') . "/" . $this->slug;
@@ -538,7 +558,7 @@ class Tour extends Bookable
         if (strtotime($start_date) < strtotime(date('Y-m-d 00:00:00'))) {
             return $this->sendError(__("Your selected dates are not valid"));
         }
-        
+
         // Validate Date and Booking
         if(!$this->isAvailableInRanges($start_date)){
             return $this->sendError(__("This tour is not available at selected dates"));
@@ -640,6 +660,24 @@ class Tour extends Bookable
                     $booking_data['person_types'] = [];
                 }
             }
+            if ($meta->ea_enable_person_types) {
+                $booking_data['ea_person_types'] = $meta->ea_person_types;
+                if (!empty($booking_data['ea_person_types'])) {
+                    foreach ($booking_data['ea_person_types'] as $k => &$type) {
+                        if (!empty($lang)) {
+                            $type['name'] = !empty($type['name_' . $lang]) ? $type['name_' . $lang] : $type['name'];
+                            $type['desc'] = !empty($type['desc_' . $lang]) ? $type['desc_' . $lang] : $type['desc'];
+                        }
+                        $type['min'] = (int)$type['min'];
+                        $type['max'] = (int)$type['max'];
+                        $type['number'] = $type['min'];
+                        $type['display_price'] = format_money($type['price']);
+                    }
+                    $booking_data['ea_person_types'] = array_values((array)$booking_data['ea_person_types']);
+                } else {
+                    $booking_data['ea_person_types'] = [];
+                }
+            }
             if ($meta->enable_extra_price) {
                 $booking_data['extra_price'] = $meta->extra_price;
                 if (!empty($booking_data['extra_price'])) {
@@ -666,6 +704,77 @@ class Tour extends Bookable
                 }
                 $booking_data['extra_price'] = array_values((array)$booking_data['extra_price']);
             }
+            if ($meta->ea_enable_extra_price) {
+                $booking_data['ea_extra_price'] = $meta->ea_extra_price;
+                if (!empty($booking_data['ea_extra_price'])) {
+                    foreach ($booking_data['ea_extra_price'] as $k => &$type) {
+                        if (!empty($lang) and !empty($type['name_' . $lang])) {
+                            $type['name'] = $type['name_' . $lang];
+                        }
+                        $type['number'] = 0;
+                        $type['enable'] = 0;
+                        $type['price_html'] = format_money($type['price']);
+                        $type['price_type'] = '';
+                        switch ($type['type']) {
+                            case "per_day":
+                                $type['price_type'] .= '/' . __('day');
+                                break;
+                            case "per_hour":
+                                $type['price_type'] .= '/' . __('hour');
+                                break;
+                        }
+                        if (!empty($type['per_person'])) {
+                            $type['price_type'] .= '/' . __('guest');
+                        }
+                    }
+                }
+                $booking_data['ea_extra_price'] = array_values((array)$booking_data['ea_extra_price']);
+            }
+            if ($meta->tz_enable_person_types) {
+                $booking_data['tz_person_types'] = $meta->tz_person_types;
+                if (!empty($booking_data['tz_person_types'])) {
+                    foreach ($booking_data['tz_person_types'] as $k => &$type) {
+                        if (!empty($lang)) {
+                            $type['name'] = !empty($type['name_' . $lang]) ? $type['name_' . $lang] : $type['name'];
+                            $type['desc'] = !empty($type['desc_' . $lang]) ? $type['desc_' . $lang] : $type['desc'];
+                        }
+                        $type['min'] = (int)$type['min'];
+                        $type['max'] = (int)$type['max'];
+                        $type['number'] = $type['min'];
+                        $type['display_price'] = format_money($type['price']);
+                    }
+                    $booking_data['tz_person_types'] = array_values((array)$booking_data['tz_person_types']);
+                } else {
+                    $booking_data['tz_person_types'] = [];
+                }
+            }
+
+            if ($meta->tz_enable_extra_price) {
+                $booking_data['tz_extra_price'] = $meta->tz_extra_price;
+                if (!empty($booking_data['tz_extra_price'])) {
+                    foreach ($booking_data['tz_extra_price'] as $k => &$type) {
+                        if (!empty($lang) and !empty($type['name_' . $lang])) {
+                            $type['name'] = $type['name_' . $lang];
+                        }
+                        $type['number'] = 0;
+                        $type['enable'] = 0;
+                        $type['price_html'] = format_money($type['price']);
+                        $type['price_type'] = '';
+                        switch ($type['type']) {
+                            case "per_day":
+                                $type['price_type'] .= '/' . __('day');
+                                break;
+                            case "per_hour":
+                                $type['price_type'] .= '/' . __('hour');
+                                break;
+                        }
+                        if (!empty($type['per_person'])) {
+                            $type['price_type'] .= '/' . __('guest');
+                        }
+                    }
+                }
+                $booking_data['tz_extra_price'] = array_values((array)$booking_data['tz_extra_price']);
+            }
             if ($meta->enable_open_hours) {
                 $booking_data['open_hours'] = $meta->open_hours;
             }
@@ -691,6 +800,28 @@ class Tour extends Bookable
                     $item['price_type'] .= '/' . __('guest');
                 }
                 $booking_data['buyer_fees'][] = $item;
+            }
+        }
+        if(!empty($this->ea_enable_service_fee) and !empty($ea_service_fee = $this->ea_service_fee)){
+            foreach ($ea_service_fee as $item) {
+                $item['type_name'] = $item['name_' . app()->getLocale()] ?? $item['name'] ?? '';
+                $item['type_desc'] = $item['desc_' . app()->getLocale()] ?? $item['desc'] ?? '';
+                $item['price_type'] = '';
+                if (!empty($item['per_person']) and $item['per_person'] == 'on') {
+                    $item['price_type'] .= '/' . __('guest');
+                }
+                $booking_data['ea_buyer_fees'][] = $item;
+            }
+        }
+        if(!empty($this->tz_enable_service_fee) and !empty($tz_service_fee = $this->tz_service_fee)){
+            foreach ($tz_service_fee as $item) {
+                $item['type_name'] = $item['name_' . app()->getLocale()] ?? $item['name'] ?? '';
+                $item['type_desc'] = $item['desc_' . app()->getLocale()] ?? $item['desc'] ?? '';
+                $item['price_type'] = '';
+                if (!empty($item['per_person']) and $item['per_person'] == 'on') {
+                    $item['price_type'] .= '/' . __('guest');
+                }
+                $booking_data['tz_buyer_fees'][] = $item;
             }
         }
         return $booking_data;

@@ -882,6 +882,55 @@ jQuery(function ($) {
         })
     })
 
+    $('.btn-submit-request-quote').click(function (e) {
+
+        e.preventDefault();
+        let form = $(this).closest('.request_quote_form_modal_form');
+
+        $.ajax({
+            url:bookingCore.url+'/booking/addRequestQuote',
+            data:form.find('textarea,input,select').serialize(),
+            dataType:'json',
+            type:'post',
+            beforeSend: function () {
+                form.find('.message_box').html('').hide();
+                form.find('.icon-loading').css("display", 'inline-block');
+            },
+            success:function(res){
+                if(res.errors){
+                    res.message = '';
+                    for(var k in res.errors){
+                        res.message += res.errors[k].join('<br>')+'<br>';
+                    }
+                }
+                if(res.message)
+                {
+                    if(!res.status){
+                        form.find('.message_box').append('<div class="text text-danger">'+res.message+'</div>').show();
+                    }else{
+                        form.find('.message_box').append('<div class="text text-success">'+res.message+'</div>').show();
+                    }
+                }
+
+                form.find('.icon-loading').hide();
+
+                if(res.status){
+                    form.find('textarea,input,select').val('');
+                }
+
+                // if(typeof BravoReCaptcha != "undefined"){
+                //     BravoReCaptcha.reset('request_quote_form');
+                // }
+            },
+            error:function (e) {
+                // if(typeof BravoReCaptcha != "undefined"){
+                //     BravoReCaptcha.reset('request_quote_form');
+                // }
+                form.find('.icon-loading').hide();
+            }
+        })
+    })
+
     $('.review_upload_file').change(function () {
         var me = $(this);
         var p = $(this).closest('.review_upload_wrap');
