@@ -39,7 +39,8 @@
             enquiry_email:"",
             enquiry_phone:"",
             enquiry_note:"",
-            custom_quote_price: ""
+            custom_quote_price: "",
+            custom_quote_request: ""
         },
         watch:{
             extra_price:{
@@ -450,6 +451,9 @@
 
                 if(!this.validate()) return false;
 
+                var custom_quote_req_el = $('#custom-quote-request');
+                this.custom_quote_request = custom_quote_req_el.length ? custom_quote_req_el.val() : '';
+
                 this.onSubmit = true;
                 var me = this;
 
@@ -470,7 +474,9 @@
                         extra_price:this.extra_price,
                         ea_extra_price:this.ea_extra_price,
                         tz_extra_price:this.tz_extra_price,
-                        guests:this.guests
+                        guests:this.guests,
+                        custom_quote_request: this.custom_quote_request,
+                        custom_quote_price: this.custom_quote_price
                     },
                     dataType:'json',
                     type:'post',

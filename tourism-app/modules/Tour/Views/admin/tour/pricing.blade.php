@@ -414,29 +414,29 @@
         <div class="panel">
             <div class="panel-title"><strong>{{__("EA CITIZENS")}}</strong></div>
             <div class="panel-body">
-                @if(is_default_lang())
-                    <h3 class="panel-body-title">{{__("Tour Price")}}</h3>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="control-label">{{__("Price")}}</label>
-                                <input type="number" min="0" name="ea_price" class="form-control" value="{{$row->ea_price}}" placeholder="{{__("Tour Price")}}">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="control-label">{{__("Sale Price")}}</label>
-                                <input type="text" name="ea_sale_price" class="form-control" value="{{$row->ea_sale_price}}" placeholder="{{__("Tour Sale Price")}}">
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                    <span>
-                        {{__("If the regular price is less than the discount , it will show the regular price")}}
-                    </span>
-                        </div>
-                    </div>
-                    <hr>
-                @endif
+{{--                @if(is_default_lang())--}}
+{{--                    <h3 class="panel-body-title">{{__("Tour Price")}}</h3>--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col-lg-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="control-label">{{__("Price")}}</label>--}}
+{{--                                <input type="number" min="0" name="ea_price" class="form-control" value="{{$row->ea_price}}" placeholder="{{__("Tour Price")}}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="control-label">{{__("Sale Price")}}</label>--}}
+{{--                                <input type="text" name="ea_sale_price" class="form-control" value="{{$row->ea_sale_price}}" placeholder="{{__("Tour Sale Price")}}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-12">--}}
+{{--                    <span>--}}
+{{--                        {{__("If the regular price is less than the discount , it will show the regular price")}}--}}
+{{--                    </span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <hr>--}}
+{{--                @endif--}}
                 @if(is_default_lang())
                     <h3 class="panel-body-title">{{__('Person Types')}}</h3>
                     <div class="form-group">
@@ -819,29 +819,29 @@
         <div class="panel">
             <div class="panel-title"><strong>{{__("TZ CITIZENS")}}</strong></div>
             <div class="panel-body">
-                @if(is_default_lang())
-                    <h3 class="panel-body-title">{{__("Tour Price")}}</h3>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="control-label">{{__("Price")}}</label>
-                                <input type="number" min="0" name="tz_price" class="form-control" value="{{$row->tz_price}}" placeholder="{{__("Tour Price")}}">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label class="control-label">{{__("Sale Price")}}</label>
-                                <input type="text" name="tz_sale_price" class="form-control" value="{{$row->tz_sale_price}}" placeholder="{{__("Tour Sale Price")}}">
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                    <span>
-                        {{__("If the regular price is less than the discount , it will show the regular price")}}
-                    </span>
-                        </div>
-                    </div>
-                    <hr>
-                @endif
+{{--                @if(is_default_lang())--}}
+{{--                    <h3 class="panel-body-title">{{__("Tour Price")}}</h3>--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col-lg-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="control-label">{{__("Price")}}</label>--}}
+{{--                                <input type="number" min="0" name="tz_price" class="form-control" value="{{$row->tz_price}}" placeholder="{{__("Tour Price")}}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label class="control-label">{{__("Sale Price")}}</label>--}}
+{{--                                <input type="text" name="tz_sale_price" class="form-control" value="{{$row->tz_sale_price}}" placeholder="{{__("Tour Sale Price")}}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-lg-12">--}}
+{{--                    <span>--}}
+{{--                        {{__("If the regular price is less than the discount , it will show the regular price")}}--}}
+{{--                    </span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <hr>--}}
+{{--                @endif--}}
                 @if(is_default_lang())
                     <h3 class="panel-body-title">{{__('Person Types')}}</h3>
                     <div class="form-group">

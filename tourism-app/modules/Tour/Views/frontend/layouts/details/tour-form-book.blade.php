@@ -27,6 +27,7 @@
             </div>
                 @if(!empty($custom_quote_request))
                 <input id="custom-quote-price" type="hidden"  name="custom_quote_price" value="{{$custom_quote_price}}">
+                <input id="custom-quote-request" type="hidden"  name="custom_quote_price" value="{{$custom_quote_request}}">
                 @endif
             <div class="form-book" :class="{'d-none':enquiry_type!='book'}">
                 @if(empty($custom_quote_request))
@@ -115,7 +116,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <?php if(!empty($row->meta->ea_enable_person_types)){ ?>
                     <div class="form-group">
                         <div class="date-wrapper clearfix">
                             <div class="check-in-wrapper">
@@ -140,20 +141,6 @@
                                                 <span class="input"><input type="number" v-model="type.number" min="1" @change="changePersonType(type)"/></span>
                                                 <i class="icon ion-ios-add-circle-outline" @click="addPersonType(type)"></i>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group form-guest-search" v-else>
-                                <div class="guest-wrapper d-flex justify-content-between align-items-center">
-                                    <div class="flex-grow-1">
-                                        <label>{{__("Guests")}}</label>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <div class="input-number-group">
-                                            <i class="icon ion-ios-remove-circle-outline" @click="minusGuestsType()"></i>
-                                            <span class="input"><input type="number" v-model="guests" min="1"/></span>
-                                            <i class="icon ion-ios-add-circle-outline" @click="addGuestsType()"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -190,6 +177,8 @@
                             </div>
                         </div>
                     </div>
+                    <?php } ?>
+                    <?php if(!empty($row->meta->tz_enable_person_types)){ ?>
 
                     <div class="form-group">
                         <div class="date-wrapper clearfix">
@@ -215,20 +204,6 @@
                                                 <span class="input"><input type="number" v-model="type.number" min="1" @change="changePersonType(type)"/></span>
                                                 <i class="icon ion-ios-add-circle-outline" @click="addPersonType(type)"></i>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group form-guest-search" v-else>
-                                <div class="guest-wrapper d-flex justify-content-between align-items-center">
-                                    <div class="flex-grow-1">
-                                        <label>{{__("Guests")}}</label>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <div class="input-number-group">
-                                            <i class="icon ion-ios-remove-circle-outline" @click="minusGuestsType()"></i>
-                                            <span class="input"><input type="number" v-model="guests" min="1"/></span>
-                                            <i class="icon ion-ios-add-circle-outline" @click="addGuestsType()"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -265,6 +240,8 @@
                             </div>
                         </div>
                     </div>
+                    <?php } ?>
+
 
                 </div>
                 @endif

@@ -293,8 +293,9 @@ class Tour extends Bookable
             return $res;
         // Add Booking
         // get Price Availability Calendar
-        $dataPriceAvailability = $this->getDataPriceAvailabilityInRanges($request->input('start_date'));
-        $total = 0;
+        $dataPriceAvailability = empty($request->input('custom_quote_request')) ? $this->getDataPriceAvailabilityInRanges($request->input('start_date')) : '';
+//        var_dump();
+        $total = !empty($request->input('custom_quote_price')) ? $request->input('custom_quote_price') : 0;
         $total_guests = 0;
         $discount = 0;
         $base_price = ($this->sale_price and $this->sale_price > 0 and $this->sale_price < $this->price) ? $this->sale_price : $this->price;
@@ -306,122 +307,126 @@ class Tour extends Bookable
         $person_types_input = $request->input('person_types');
         $discount_by_people = [];
         $meta = $this->meta;
-        if ($meta) {
-            // for Availability Calendar
-            $meta->person_types = $dataPriceAvailability['person_types'] ?? $meta->person_types;
-            if ($meta->enable_person_types and !empty($meta->person_types)) {
-                if (!empty($meta->person_types)) {
-                    foreach ($meta->person_types as $k => $type) {
-                        if (isset($person_types_input[$k]) and $person_types_input[$k]['number']) {
-                            $type['number'] = $person_types_input[$k]['number'];
-                            $person_types[] = $type;
-                            $total += $type['price'] * $type['number'];
-                            $total_guests += $type['number'];
+        if(empty($request->input('custom_quote_request')) && empty($request->input('custom_quote_price'))){
+            if ($meta) {
+                // for Availability Calendar
+                $meta->person_types = $dataPriceAvailability['person_types'] ?? $meta->person_types;
+                if ($meta->enable_person_types and !empty($meta->person_types)) {
+                    if (!empty($meta->person_types)) {
+                        foreach ($meta->person_types as $k => $type) {
+                            if (isset($person_types_input[$k]) and $person_types_input[$k]['number']) {
+                                $type['number'] = $person_types_input[$k]['number'];
+                                $person_types[] = $type;
+                                $total += $type['price'] * $type['number'];
+                                $total_guests += $type['number'];
+                            }
+                        }
+                    }
+                } else {
+                    $total += $base_price * $request->input('guests');
+                    $total_guests += $request->input('guests');
+                }
+                if ($meta->enable_extra_price and !empty($meta->extra_price)) {
+                    if (!empty($meta->extra_price)) {
+                        foreach ($meta->extra_price as $k => $type) {
+                            if (isset($extra_price_input[$k]) and $extra_price_input[$k]['enable'] and $extra_price_input[$k]['enable'] != 'false') {
+
+                                $type_total = 0;
+                                switch ($type['type']) {
+                                    case "one_time":
+                                        $type_total = $type['price'];
+                                        break;
+                                    case "per_hour":
+                                        $type_total = $type['price'] * $this->duration;
+                                        break;
+                                    case "per_day":
+                                        $type_total = $type['price'] * ceil($this->duration / 24);
+                                        break;
+                                }
+                                if (!empty($type['per_person'])) {
+                                    $type_total *= $total_guests;
+                                }
+                                $type['total'] = $type_total;
+                                $total += $type_total;
+                                $extra_price[] = $type;
+                            }
+                        }
+                    }
+                }
+                if ($meta->discount_by_people and !empty($meta->discount_by_people)) {
+                    foreach ($meta->discount_by_people as $type) {
+                        if ($type['from'] <= $total_guests and (!$type['to'] or $type['to'] >= $total_guests)) {
+
+                            $type_total = 0;
+                            switch ($type['type']) {
+                                case "fixed":
+                                    $type_total = $type['amount'];
+                                    break;
+                                case "percent":
+                                    $type_total = $total / 100 * $type['amount'];
+                                    break;
+                            }
+                            $total -= $type_total;
+                            $discount += $type_total;
+                            $type['total'] = $type_total;
+                            $discount_by_people[] = $type;
                         }
                     }
                 }
             } else {
+                // Default
                 $total += $base_price * $request->input('guests');
                 $total_guests += $request->input('guests');
             }
-            if ($meta->enable_extra_price and !empty($meta->extra_price)) {
-                if (!empty($meta->extra_price)) {
-                    foreach ($meta->extra_price as $k => $type) {
-                        if (isset($extra_price_input[$k]) and $extra_price_input[$k]['enable'] and $extra_price_input[$k]['enable'] != 'false') {
-
-                            $type_total = 0;
-                            switch ($type['type']) {
-                                case "one_time":
-                                    $type_total = $type['price'];
-                                    break;
-                                case "per_hour":
-                                    $type_total = $type['price'] * $this->duration;
-                                    break;
-                                case "per_day":
-                                    $type_total = $type['price'] * ceil($this->duration / 24);
-                                    break;
-                            }
-                            if (!empty($type['per_person'])) {
-                                $type_total *= $total_guests;
-                            }
-                            $type['total'] = $type_total;
-                            $total += $type_total;
-                            $extra_price[] = $type;
-                        }
+        }
+        if(empty($request->input('custom_quote_request')) && empty($request->input('custom_quote_price'))) {
+            $start_date = new \DateTime($request->input('start_date'));
+            if (empty($start_date)) {
+                return $this->sendError(__("Start date is not a valid date"));
+            }
+            if (!$this->checkBusyDate($start_date)) {
+                return $this->sendError(__("Start date is not a valid date"));
+            }
+            //Buyer Fees for Admin
+            $total_before_fees = $total;
+            $list_buyer_fees = setting_item('tour_booking_buyer_fees');
+            $total_buyer_fee = 0;
+            if (!empty($list_buyer_fees)) {
+                $lists = json_decode($list_buyer_fees, true);
+                foreach ($lists as $item) {
+                    //for Fixed
+                    $fee_price = $item['price'];
+                    // for Percent
+                    if (!empty($item['unit']) and $item['unit'] == "percent") {
+                        $fee_price = ($total_before_fees / 100) * $item['price'];
+                    }
+                    if (!empty($item['per_person']) and $item['per_person'] == "on") {
+                        $total_buyer_fee += $fee_price * $total_guests;
+                    } else {
+                        $total_buyer_fee += $fee_price;
                     }
                 }
+                $total += $total_buyer_fee;
             }
-            if ($meta->discount_by_people and !empty($meta->discount_by_people)) {
-                foreach ($meta->discount_by_people as $type) {
-                    if ($type['from'] <= $total_guests and (!$type['to'] or $type['to'] >= $total_guests)) {
 
-                        $type_total = 0;
-                        switch ($type['type']) {
-                            case "fixed":
-                                $type_total = $type['amount'];
-                                break;
-                            case "percent":
-                                $type_total = $total / 100 * $type['amount'];
-                                break;
-                        }
-                        $total -= $type_total;
-                        $discount += $type_total;
-                        $type['total'] = $type_total;
-                        $discount_by_people[] = $type;
+            //Service Fees for Vendor
+            $total_service_fee = 0;
+            if (!empty($this->enable_service_fee) and !empty($list_service_fee = $this->service_fee)) {
+                foreach ($list_service_fee as $item) {
+                    //for Fixed
+                    $serice_fee_price = $item['price'];
+                    // for Percent
+                    if (!empty($item['unit']) and $item['unit'] == "percent") {
+                        $serice_fee_price = ($total_before_fees / 100) * $item['price'];
+                    }
+                    if (!empty($item['per_person']) and $item['per_person'] == "on") {
+                        $total_service_fee += $serice_fee_price * $total_guests;
+                    } else {
+                        $total_service_fee += $serice_fee_price;
                     }
                 }
+                $total += $total_service_fee;
             }
-        } else {
-            // Default
-            $total += $base_price * $request->input('guests');
-            $total_guests += $request->input('guests');
-        }
-        $start_date = new \DateTime($request->input('start_date'));
-        if (empty($start_date)) {
-            return $this->sendError(__("Start date is not a valid date"));
-        }
-        if (!$this->checkBusyDate($start_date)) {
-            return $this->sendError(__("Start date is not a valid date"));
-        }
-        //Buyer Fees for Admin
-        $total_before_fees = $total;
-        $list_buyer_fees = setting_item('tour_booking_buyer_fees');
-        $total_buyer_fee = 0;
-        if (!empty($list_buyer_fees)) {
-            $lists = json_decode($list_buyer_fees, true);
-            foreach ($lists as $item) {
-                //for Fixed
-                $fee_price = $item['price'];
-                // for Percent
-                if (!empty($item['unit']) and $item['unit'] == "percent") {
-                    $fee_price = ($total_before_fees / 100) * $item['price'];
-                }
-                if (!empty($item['per_person']) and $item['per_person'] == "on") {
-                    $total_buyer_fee += $fee_price * $total_guests;
-                } else {
-                    $total_buyer_fee += $fee_price;
-                }
-            }
-            $total += $total_buyer_fee;
-        }
-
-        //Service Fees for Vendor
-        $total_service_fee = 0;
-        if(!empty($this->enable_service_fee) and !empty($list_service_fee = $this->service_fee)){
-            foreach ($list_service_fee as $item) {
-                //for Fixed
-                $serice_fee_price = $item['price'];
-                // for Percent
-                if (!empty($item['unit']) and $item['unit'] == "percent") {
-                    $serice_fee_price = ($total_before_fees / 100) * $item['price'];
-                }
-                if (!empty($item['per_person']) and $item['per_person'] == "on") {
-                    $total_service_fee += $serice_fee_price * $total_guests;
-                } else {
-                    $total_service_fee += $serice_fee_price;
-                }
-            }
-            $total += $total_service_fee;
         }
 
         $booking = new $this->bookingClass();
@@ -431,33 +436,44 @@ class Tour extends Bookable
         $booking->vendor_id = $this->create_user;
         $booking->customer_id = Auth::id();
         $booking->total = $total;
-        $booking->total_guests = $total_guests;
-        $booking->start_date = $start_date->format('Y-m-d H:i:s');
-        $start_date->modify('+ ' . max(1, $this->duration) . ' hours');
-        $booking->end_date = $start_date->format('Y-m-d H:i:s');
+        $booking->total_guests = empty($request->input('custom_quote_request')) && empty($request->input('custom_quote_price')) ? '' : $total_guests;
+        if(empty($request->input('custom_quote_request')) && empty($request->input('custom_quote_price'))){
+            $booking->start_date = $start_date->format('Y-m-d H:i:s');
+            $start_date->modify('+ ' . max(1, $this->duration) . ' hours');
+            $booking->end_date = $start_date->format('Y-m-d H:i:s');
 
-        $booking->vendor_service_fee_amount = $total_service_fee ?? '';
-        $booking->vendor_service_fee = $list_service_fee ?? '';
-        $booking->buyer_fees = $list_buyer_fees ?? '';
-        $booking->total_before_fees = $total_before_fees;
+            $booking->vendor_service_fee_amount = $total_service_fee ?? '';
+            $booking->vendor_service_fee = $list_service_fee ?? '';
+            $booking->buyer_fees = $list_buyer_fees ?? '';
+            $booking->total_before_fees = $total_before_fees;
+        } else {
+            $booking->start_date = '';
+             $booking->end_date = '';
 
-        $booking->calculateCommission();
-        if ($this->isDepositEnable()) {
-            $booking_deposit_fomular = $this->getDepositFomular();
-            $tmp_price_total = $booking->total;
-            if ($booking_deposit_fomular == "deposit_and_fee") {
-                $tmp_price_total = $booking->total_before_fees;
-            }
-            switch ($this->getDepositType()) {
-                case "percent":
-                    $booking->deposit = $tmp_price_total * $this->getDepositAmount() / 100;
-                    break;
-                default:
-                    $booking->deposit = $this->getDepositAmount();
-                    break;
-            }
-            if ($booking_deposit_fomular == "deposit_and_fee") {
-                $booking->deposit = $booking->deposit + $total_buyer_fee + $total_service_fee;
+            $booking->vendor_service_fee_amount = '';
+            $booking->vendor_service_fee = '';
+            $booking->buyer_fees = '';
+            $booking->total_before_fees = '';
+        }
+        if(empty($request->input('custom_quote_request')) && empty($request->input('custom_quote_price'))) {
+            $booking->calculateCommission();
+            if ($this->isDepositEnable()) {
+                $booking_deposit_fomular = $this->getDepositFomular();
+                $tmp_price_total = $booking->total;
+                if ($booking_deposit_fomular == "deposit_and_fee") {
+                    $tmp_price_total = $booking->total_before_fees;
+                }
+                switch ($this->getDepositType()) {
+                    case "percent":
+                        $booking->deposit = $tmp_price_total * $this->getDepositAmount() / 100;
+                        break;
+                    default:
+                        $booking->deposit = $this->getDepositAmount();
+                        break;
+                }
+                if ($booking_deposit_fomular == "deposit_and_fee") {
+                    $booking->deposit = $booking->deposit + $total_buyer_fee + $total_service_fee;
+                }
             }
         }
         $check = $booking->save();
@@ -520,10 +536,17 @@ class Tour extends Bookable
     public function addToCartValidate(Request $request)
     {
         $meta = $this->meta;
-        $rules = [
-            'guests'     => 'required|integer|min:1',
-            'start_date' => 'required|date_format:Y-m-d'
-        ];
+        if(!empty($request->input('custom_quote_request'))) {
+            $rules = [
+                'guests'     => 'required|integer|min:1',
+            ];
+        }else{
+            $rules = [
+                'guests'     => 'required|integer|min:1',
+                'start_date' => 'required|date_format:Y-m-d'
+            ];
+        }
+
         $start_date = $request->input('start_date');
         if ($meta) {
 
@@ -555,13 +578,17 @@ class Tour extends Bookable
                 return $this->sendError('', ['errors' => $validator->errors()]);
             }
         }
-        if (strtotime($start_date) < strtotime(date('Y-m-d 00:00:00'))) {
-            return $this->sendError(__("Your selected dates are not valid"));
+        if(empty($request->input('custom_quote_request'))){
+            if (strtotime($start_date) < strtotime(date('Y-m-d 00:00:00'))) {
+                return $this->sendError(__("Your selected dates are not valid"));
+            }
         }
 
-        // Validate Date and Booking
-        if(!$this->isAvailableInRanges($start_date)){
-            return $this->sendError(__("This tour is not available at selected dates"));
+        if(empty($request->input('custom_quote_request'))) {
+            // Validate Date and Booking
+            if (!$this->isAvailableInRanges($start_date)) {
+                return $this->sendError(__("This tour is not available at selected dates"));
+            }
         }
 
         if ($meta) {
